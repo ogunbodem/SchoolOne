@@ -182,33 +182,7 @@ $(document).ready(function(){
 
     });
 
-    //Forget Password
-    $("#forget_password").click(function(){
-    	var card_number = $("#card_number").val();
-    	var email = $("#email").val();
-    	var dataString="card_number=" + card_number + "email="+email+ "&forget_password=";
-    	if($.trim(card_number).length>0 & $.trim(email).length>0){
-			$.ajax({
-				type: "POST",
-				url: "http://www.alicesons.org/demos/phonegap/schoolone/forget_password.php",
-				data: dataString,
-				crossDomain: true,
-				cache: false,
-				beforeSend: function(){ 
-					$("#forget_password").html('<img src="img/loader.gif" />');
-				},
-				success: function(data){
-					if(data=="invalid"){
-						alert("Your have not registered with us, please contact administrator");
-					}else if(data="success"){
-						alert("Please, check your mail an email has been sent to your email address, thanks");
-					}else if(data="failed"){
-						alert("Email not sent, please contact administrator");
-					}
-				}
-			});
-		}return false;
-    });
+    
 
 
     //logout function

@@ -83,5 +83,5 @@ function w3_open() {
 
 function w3_close() {
    	document.getElementById("mySidebar").style.display = "none";
-    document.getElementById("main").style.marginLeft = "0";
+    document.getElementById("main").style.marginLeft = "0"; 
 }
