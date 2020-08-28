@@ -104,6 +104,42 @@
     <script type="text/javascript">
       $(document).ready(function(){
         $("#teacherNo").append('<input type="hidden" id="teacher_no" value="'+localStorage.teacherSpecialID+'">');
+        //Set Class function
+    $("#set_class").click(function(){
+        var t_classes = $("#class").val();
+        var teacher_no = $("#teacher_no").val();
+        
+        var dataString = "teacher_class=" + t_classes + "&teacher_no=" + teacher_no + "&set_classes=";
+        if ($.trim(t_classes).length > 0 & $.trim(teacher_no).length > 0 ) {
+            $.ajax({
+                type: "POST",
+                //url: "http://www.alicesons.org/demos/phonegap/schoolone/register.php",
+                url: "http://www.alicesons.org/demos/phonegap/schoolone/t_set_class.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function(){ 
+                    $("#set_class").html('<img src="img/loader.gif" />');
+                },
+                success: function(data){
+                    if (data == "success") {
+                        if(!alert("You have successfully setup your class!.")){
+                            window.location.reload();
+                            $("#class").val("");
+                            $("#teacher_no").val("");
+                        }
+                    } else if (data == "error") {
+                        if(!alert("Their is an error setting up your class.")){
+                            window.location.reload();
+                            $("#class").val("");
+                            $("#teacher_no").val("");
+                        }
+                    }
+                },
+            });
+          }
+        return false;
+      });
       });
     </script>
    

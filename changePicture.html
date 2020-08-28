@@ -110,10 +110,61 @@
 
      <script type="text/javascript" src="cordova.js"></script>
     <script src="ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script type="text/javascript" src="js/auth.js"></script>
+    <script type="text/javascript" src="js/sa_auth.js"></script>
     <script type="text/javascript" src="js/constant.js"></script>
     <script type="text/javascript" src="js/picture.js"></script>
-     <script type="text/javascript" src="js/func.js"></script>
+    <script type="text/javascript" src="js/func.js"></script>
+    <script type="text/javascript">
+      
+    // take picture from camera
+    $('#but_take').click(function(){      
+        navigator.camera.getPicture(onSuccess, onFail, { 
+            quality: 20, 
+            destinationType: Camera.DestinationType.FILE_URL 
+        });
+    });
+
+    // upload select 
+    $("#but_select").click(function(){
+        navigator.camera.getPicture(onSuccess, onFail, { 
+            quality: 50,
+            sourceType: Camera.PictureSourceType.PHOTOLIBRARY, 
+            allowEdit: true,
+            destinationType: Camera.DestinationType.FILE_URI
+        });
+    });
+
+    // Change image source and upload photo to server
+    function onSuccess(imageURI) {
+
+        // Set image source
+        var image = document.getElementById('img');
+        image.src = imageURI  + '?' + Math.random();
+                
+        var options = new FileUploadOptions();
+        options.fileKey = "file";
+        options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
+        options.mimeType = "image/jpeg";
+                
+        var params = {};
+        params.value1 = "test";
+        params.value2 = "param";
+
+        options.params = params;
+        options.chunkedMode = false;
+
+        var ft = new FileTransfer();
+        ft.upload(imageURI, "http://www.alicesons.org/demos/phonegap/schoolone/upload.php", function(result){
+            alert('successfully uploaded ' + result.response);
+        }, function(error){
+            alert('error : ' + JSON.stringify(error));
+        }, options);
+    }
+
+    function onFail(message) {
+        alert('Failed because: ' + message);
+    }
+    </script>
 
    <div style="margin-bottom: 40px;"></div>
     <footer id="footer"></footer>

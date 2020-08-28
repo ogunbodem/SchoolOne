@@ -17,7 +17,7 @@
     -->
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
 
-    <title>School One</title>
+    <title>School One</title> 
 
     <link rel="stylesheet" type="text/css" href="w3css/4/w3.css">
     <link rel="stylesheet" href="ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -175,6 +175,89 @@
               }
             }
           });
+
+           //Registration function
+    $("#set_question").click(function(){
+        var teacherNo = $("#teacher_no").val();
+        var classPop = $("#class_pop").val();
+        var subjectPop = $("#subject_pop").val();
+        var question = $("#question").val();
+        var optionA = $("#option_a").val();
+        var optionB = $("#option_b").val();
+        var optionC = $("#option_c").val();
+        var optionD = $("#option_d").val();
+        var optionE = $("#option_e").val();
+        var times = $("#time").val();
+        var markes = $("#mark").val();
+        var correctAns = $("#correct_ans").val();
+
+        var dataString = "teacherNo=" + teacherNo + "&classPop=" + classPop + "&subjectPop=" + subjectPop + "&question=" + question + "&optionA=" + optionA + "&optionB=" + optionB + "&optionC=" + optionC + "&optionD=" + optionD + "&optionE=" + optionE + "&times=" + times + "&markes=" + markes + "&correctAns=" + correctAns + "&new_question=";
+        if ($.trim(teacherNo).length > 0 & $.trim(classPop).length > 0 & $.trim(subjectPop).length > 0 & $.trim(question).length > 0 & $.trim(optionA).length > 0 & $.trim(optionB).length > 0 & $.trim(optionC).length > 0 & $.trim(optionD).length > 0 & $.trim(optionE).length > 0 & $.trim(times).length > 0 & $.trim(markes).length > 0 & $.trim(correctAns).length > 0) {
+            $.ajax({
+                type: "POST",
+                //url: "http://www.alicesons.org/demos/phonegap/schoolone/register.php",
+                url: "http://www.alicesons.org/demos/phonegap/schoolone/save_set_questions.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function(){ 
+                    $("#set_question").html('<img src="img/loader.gif" />');
+                },
+              success: function(data){
+                if (data == "success") {
+                    if(!alert("You have successfully setup questions for ["+ classPop +"] class !.")){
+                        window.location.reload();
+                        $("#teacher_no").val("");
+                        $("#class_pop").val("");
+                        $("#subject_pop").val("");
+                        $("#question").val("");
+                        $("#option_a").val("");
+                        $("#option_b").val("");
+                        $("#option_c").val("");
+                        $("#option_d").val("");
+                        $("#option_e").val("");
+                        $("#time").val("");
+                        $("#mark").val("");
+                        $("#correct_ans").val("");
+                    }
+                } else if (data == "exist") {
+                    if(!alert("[" + question + "] already existing.")){
+                        window.location.reload();
+                        $("#teacher_no").val("");
+                        $("#class_pop").val("");
+                        $("#subject_pop").val("");
+                        $("#question").val("");
+                        $("#option_a").val("");
+                        $("#option_b").val("");
+                        $("#option_c").val("");
+                        $("#option_d").val("");
+                        $("#option_e").val("");
+                        $("#time").val("");
+                        $("#mark").val("");
+                        $("#correct_ans").val("");
+                    }
+                } else if (data == "error") {
+                    if(!alert("Their is an error setting up this "+ question +" for you.")){
+                        window.location.reload();
+                        $("#teacher_no").val("");
+                        $("#class_pop").val("");
+                        $("#subject_pop").val("");
+                        $("#question").val("");
+                        $("#option_a").val("");
+                        $("#option_b").val("");
+                        $("#option_c").val("");
+                        $("#option_d").val("");
+                        $("#option_e").val("");
+                        $("#time").val("");
+                        $("#mark").val("");
+                        $("#correct_ans").val("");                   
+                    }
+                }
+              },
+            });
+          }
+        return false;
+      });
       });
     </script>
    

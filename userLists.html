@@ -76,10 +76,31 @@
 
     <script type="text/javascript" src="cordova.js"></script>
     <script src="ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script type="text/javascript" src="js/auth.js"></script>
+    <script type="text/javascript" src="js/sa_auth.js"></script>
     <script type="text/javascript" src="js/constant.js"></script>
-    <script type="text/javascript" src="js/userlists.js"></script>
     <script type="text/javascript" src="js/func.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+    //var url = "http://www.alicesons.org/demos/phonegap/view.php";
+    var url = "http://www.alicesons.org/demos/phonegap/schoolone/getUsers.php";
+    $.getJSON(url, function(result) {
+        console.log(result);
+        $.each(result, function(i, field) {
+            var user_id = field.user_id;
+            var special_id = field.user_special_id;
+            var username = field.user_username;
+            var email = field.user_email;
+            var fname = field.user_fname;
+            var lname = field.user_lname;
+            var type = field.user_type;
+            var role = field.user_role;
+            var phone = field.user_phone;
+            var picture = field.user_picture;
+            $("#listView").append('<li class="w3-bar"><a href="displayUserInfo.html?user_id=' + user_id + '&special_id=' + special_id + '&username=' + username + '&fname=' + fname + '&lname=' + lname + '&type=' + type + '&role=' + role + '&picture=' + picture + '&email=' + email + '&phone=' + phone + '"><img src="http://www.alicesons.org/demos/phonegap/schoolone/upload/' + picture + '" class="w3-left w3-round" style="width:85px;"><div class="w3-bar-item" style="padding:20px;"><span class="w3-small" style="font-weight:bolder;">'+ lname +' '+ fname +'</span><br><span class="w3-small">'+ type +'</span></div></a></li>');
+        });
+    }); 
+});
+    </script>
    
    <div style="margin-bottom: 40px;"></div>
     <footer id="footer"></footer>

@@ -164,6 +164,54 @@
               }
             }
           });
+
+          //Notes function 
+    $("#set_notes").click(function(){
+        var teacherNo = $("#teacher_no").val();
+        var school_name = $("#school_name").val();
+        var classPop = $("#class_pop").val();
+        var subjectPop = $("#subject_pop").val();
+        var noteTopic = $("#note_topic").val();
+        var notes = $("#notes").val();
+       
+        var dataString = "teacherNo=" + teacherNo + "&school_name=" + school_name + "&classPop=" + classPop + "&subjectPop=" + subjectPop + "&noteTopic=" + noteTopic + "&notes=" + notes + "&new_notes=";
+        if ($.trim(teacherNo).length > 0 & $.trim(school_name).length > 0 & $.trim(classPop).length > 0 & $.trim(subjectPop).length > 0 & $.trim(noteTopic).length > 0) {
+            $.ajax({
+                type: "POST",
+                //url: "http://www.alicesons.org/demos/phonegap/schoolone/register.php",
+                url: "http://www.alicesons.org/demos/phonegap/schoolone/save_set_notes.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function(){ 
+                    $("#set_notes").html('<img src="img/loader.gif" />');
+                },
+              success: function(data){
+                if (data == "success") {
+                    if(!alert("You have successfully setup note for ["+ classPop +"] class !.")){
+                        window.location.reload();
+                        $("#teacher_no").val("");
+                        $("#class_pop").val("");
+                        $("#subject_pop").val("");
+                        $("#note_topic").val("");
+                        $("#notes").val("");
+                    }
+                } else if (data == "error") {
+                    if(!alert("Their is an error setting up this note for you.")){
+                        window.location.reload();
+                        $("#teacher_no").val("");
+                        $("#class_pop").val("");
+                        $("#subject_pop").val("");
+                        $("#note_topic").val("");
+                        $("#notes").val("");                
+                    }
+                }
+              },
+            });
+          }
+        return false;
+      });
+
       });
     </script>
    

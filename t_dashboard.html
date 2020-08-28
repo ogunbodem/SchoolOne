@@ -201,6 +201,80 @@
     <script type="text/javascript" src="js/t_dashboard.js"></script>
     <script>
       $(document).ready(function(){
+         var teacher_no = localStorage.teacherSpecialID;
+
+         
+    $.ajax({
+        type: 'GET',
+        url: 'http://www.alicesons.org/demos/phonegap/schoolone/getTeacherClass.php',
+        dataType: 'json',
+        data: {teacher_no: teacher_no},
+        success:function(response){
+            var len = response.length;
+            $("#t_class_nos").empty();
+            for(var m = 0; m<len; m++){
+                var class_name = response[m]['class_name'];
+                $("#t_class_nos").append("<span class='w3-tag w3-small' style='font-family: Verdana,sans-serif;font-size: 13px;line-height: 1.5;margin-right:5px;margin-bottom:5px;'>"+class_name+"</span>");
+            }
+        }
+    });
+    $.ajax({
+        type: 'GET',
+        url: 'http://www.alicesons.org/demos/phonegap/schoolone/getTeacherSubject.php',
+        dataType: 'json',
+        data: {teacher_no: teacher_no},
+        success:function(response){
+            var len = response.length;
+            $("#t_subject_nos").empty();
+            for(var n = 0; n<len; n++){
+                var subject_name = response[n]['subject_name'];
+                $("#t_subject_nos").append("<span class='w3-tag w3-small' style='font-family: Verdana,sans-serif;font-size: 13px;line-height: 1.5;margin-right:5px;margin-bottom:5px;'>"+subject_name+"</span>");
+            }
+        }
+    });
+    $.ajax({
+        type: 'GET',
+        url: 'http://www.alicesons.org/demos/phonegap/schoolone/getTeacherNote.php',
+        dataType: 'json',
+        data: {teacher_no: teacher_no},
+        success:function(response){
+            var len = response.length;
+            $("#t_note_nos").empty();
+            for(var o = 0; o<len; o++){
+                var note_no = response[o]['note_no'];
+                $("#t_note_nos").append("<span class='w3-right' style='font-weight:bolder;'>"+ note_no +"</span>");
+            }
+        }
+    });
+    $.ajax({
+        type: 'GET',
+        url: 'http://www.alicesons.org/demos/phonegap/schoolone/getTeacherAssignment.php',
+        dataType: 'json',
+        data: {teacher_no: teacher_no},
+        success:function(response){
+            var len = response.length;
+            $("#t_assignment_nos").empty();
+            for(var p = 0; p<len; p++){
+                var assignment_no = response[p]['assignment_no'];
+                $("#t_assignment_nos").append("<span class='w3-right' style='font-weight:bolder;'>"+ assignment_no +"</span>");
+            }
+        }
+    });
+    $.ajax({
+        type: 'GET',
+        url: 'http://www.alicesons.org/demos/phonegap/schoolone/getTeacherCAT.php',
+        dataType: 'json',
+        data: {teacher_no: teacher_no},
+        success:function(response){
+            var len = response.length;
+            $("#t_cat_nos").empty();
+            for(var q = 0; q<len; q++){
+                var cat_no = response[q]['cat_no'];
+                $("#t_cat_nos").append("<span class='w3-right' style='font-weight:bolder;'>"+ cat_no +"</span>");
+            }
+        }
+    });
+
          //var url = "http://www.alicesons.org/demos/phonegap/view.php";
     var url = "http://www.alicesons.org/demos/phonegap/schoolone/getStudentNoteResponse.php";
     var valdata = {teacher_no:localStorage.teacherSpecialID};
@@ -410,7 +484,7 @@
       window.location.reload();
     });
 
-      });
+  });
 
 
       function myShow() {

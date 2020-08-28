@@ -164,6 +164,53 @@
               }
             }
           });
+
+          //Assignment function
+    $("#set_assignment").click(function(){
+        var teacherNo = $("#teacher_no").val();
+        var school_name = $("#school_name").val();
+        var classPop = $("#class_pop").val();
+        var subjectPop = $("#subject_pop").val();
+        var assignment_topic = $("#assignment_topic").val();
+        var assignment_text = $("#assignment_text").val();
+
+        var dataString = "teacherNo=" + teacherNo + "&school_name=" + school_name + "&classPop=" + classPop + "&subjectPop=" + subjectPop + "&assignment_topic=" + assignment_topic + "&assignment_text=" + assignment_text + "&new_assignment=";
+        if ($.trim(teacherNo).length > 0 & $.trim(school_name).length > 0 & $.trim(classPop).length > 0 & $.trim(subjectPop).length > 0 & $.trim(assignment_topic).length > 0) {
+            $.ajax({
+                type: "POST",
+                //url: "http://www.alicesons.org/demos/phonegap/schoolone/register.php",
+                url: "http://www.alicesons.org/demos/phonegap/schoolone/save_set_assignment.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function(){ 
+                    $("#set_assignment").html('<img src="img/loader.gif" />');
+                },
+              success: function(data){
+                if (data == "success") {
+                    if(!alert("You have successfully setup assignment for ["+ classPop +"] class !.")){
+                        window.location.reload();
+                        $("#teacher_no").val("");
+                        $("#class_pop").val("");
+                        $("#subject_pop").val("");
+                        $("#assignment_topic").val("");
+                        $("#assignment_text").val("");
+                    }
+                } else if (data == "error") {
+                    if(!alert("Their is an error setting up this "+ assignment_topic +" for you.")){
+                        window.location.reload();
+                        $("#teacher_no").val("");
+                        $("#class_pop").val("");
+                        $("#subject_pop").val("");
+                        $("#assignment_topic").val("");
+                        $("#assignment_text").val("");                 
+                    }
+                }
+              },
+            });
+          }
+        return false;
+      });
       });
     </script>
    

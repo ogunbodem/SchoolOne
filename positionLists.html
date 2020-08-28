@@ -75,11 +75,25 @@
      
     <script type="text/javascript" src="cordova.js"></script>
     <script src="ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script type="text/javascript" src="js/auth.js"></script>
+    <script type="text/javascript" src="js/sa_auth.js"></script>
     <script type="text/javascript" src="js/constant.js"></script>
-    <script type="text/javascript" src="js/positionlists.js"></script>
-     <script type="text/javascript" src="js/func.js"></script>
-   
+    <script type="text/javascript" src="js/func.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+    //var url = "http://www.alicesons.org/demos/phonegap/view.php";
+    var url = "http://www.alicesons.org/demos/phonegap/schoolone/getPosition.php";
+    $.getJSON(url, function(result) {
+        console.log(result);
+        $.each(result, function(i, field) {
+            var posi_id = field.position_id;
+            var posi_name = field.position_name;
+            var posi_date = field.position_created_date;
+            var posi_ip = field.position_ip_addr;
+            $("#listView").append('<li><a style="text-decoration:none;" href="displayPositionInfo.html?posi_id=' + posi_id + '&posi_name=' + posi_name + '&posi_date=' + posi_date + '&posi_ip=' + posi_ip + '"><span class="w3-small" style="font-weight:bolder;">'+ posi_name +'</span></a></li>');
+        });
+    });
+});
+    </script>
    <div style="margin-bottom: 40px;"></div>
     <footer id="footer"></footer>
 </body>
