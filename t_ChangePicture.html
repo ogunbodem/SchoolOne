@@ -116,7 +116,7 @@
      <script type="text/javascript">
        $(document).ready(function(){
 
-         $('#hidden_input').append('<input type="hidden" id="t_special_number" value="'+ localStorage.teacherSpecialID +'">');
+         $('#hidden_input').append('<input type="hidden" id="t_special_number" value="'+  +'">');
 
     // take picture from camera
     $('#but_take').click(function(){      
@@ -147,16 +147,21 @@
         options.fileKey = "file";
         options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
         options.mimeType = "image/jpeg";
-        options.chunkedMode = true; 
-                
-        var params = new object(); 
-        params.special_number = $("#t_special_number").val();
+        //options.chunkedMode = true;
+        //var params = new object(); 
+        //params.special_number = localStorage.teacherSpecialID;
 
-        options.params = params;
+        //options.params = params;
+
+        options.params = {
+            special_number: localStorage.teacherSpecialID
+            //lastname: document.getElementById("lastname").value,
+            //workplace: document.getElementById("workplace").value
+        }
         
 
         var ft = new FileTransfer();
-        ft.upload(imageURI, "http://www.alicesons.org/demos/phonegap/schoolone/t_UploadPicture.php", function(result){
+        ft.upload(imageURI, "http://www.alicesons.org/demos/phonegap/schoolone/t_UploadPicture.php", options, function(result){
             alert('successfully uploaded ' + result.response);
         }, function(error){
             alert('error : ' + JSON.stringify(error));
