@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" /> 
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <title>School One</title>
+
+    <link rel="stylesheet" type="text/css" href="w3css/4/w3.css">
+    <link rel="stylesheet" href="ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style type="text/css">
+        @media screen and (max-width: 455px) {
+      .h3 {
+        font-size:16px;
+      }
+     body {
+        font-size:10px;
+      }
+    }
+    .tokening {
+        font-size:0.9vw;
+        display: none;
+        position: absolute;
+      }
+
+      @media only screen and (max-width: 600px) {
+        span.tokening {
+          font-size:10px; 
+        }
+      }
+    </style>
+    <script type="text/javascript">
+      
+      var url = window.location.pathname;
+      var filename = url.substring(url.lastIndexOf('/')+1);
+      if(localStorage.t_login=="true" && filename == 'login.html'){
+        window.location.href = "t_dashboard.html";
+      } else if (localStorage.t_login == null) {
+        window.location.href = "login.html";
+      }else if(localStorage.t_login=="false" && filename != 'login.html'){
+        window.location.href = "login.html";
+      }
+  </script>
+</head>
+<body style="background:#e6e6e6;color:black;">
+
+<!-- Sidebar -->
+<div class="w3-sidebar w3-light-grey w3-card-4 w3-animate-left" style="display:none;width:250px;" id="mySidebar">
+<div id="t_menu">
+  
+</div>
+  <div class="w3-bar-block">
+    <a id="t_logout" class="w3-bar-item w3-button" href="javascript:;"><i class="fa fa-power-off"></i> Logout</a>
+  </div>
+</div>
+
+<!-- Page Content -->
+<div id="main" class="main">
+<div class="w3-green w3-display-container">
+  <button class="w3-button w3-green w3-xlarge" id="openNav" onclick="w3_open()"><i class="fa fa-bars"></i></button>
+  <div class="w3-container">
+    <img src="img/logo_white.png" style="width: 52px;height: 52px;margin-right:20px;" class="w3-right w3-margin-bottom">
+    <h1 class="h3" style="float: left;">Dashboard</h1>
+  </div>
+</div>
+</div>
+<img src="img/dash_bg.jpeg" alt="bg" style="width:100%">
+<div class="w3-container">
+
+<div class="w3-row-padding w3-margin-bottom w3-margin-top"> 
+  <div class="w3-quarter" style="margin-bottom: 6px;">
+    <div class="w3-container" style="border-bottom: 3px solid #4CAF50 !important;background-color: #fff;font-size: 16px;padding: 5px;text-transform: uppercase;border-bottom-right-radius: 5px;border-bottom-left-radius: 5px;">
+        <span id="tName"></span>
+    </div>
+  </div>
+  <div class="w3-quarter" style="margin-bottom: 6px;">
+    <div class="w3-container" style="border-bottom: 3px solid #4CAF50 !important;background-color: #fff;font-size: 16px;padding: 5px;text-transform: uppercase;border-bottom-right-radius: 5px;border-bottom-left-radius: 5px;">
+         <span id="tCardNumber"></span>
+    </div>
+  </div>
+  <div class="w3-quarter" style="margin-bottom: 6px;">
+    <div class="w3-container" style="border-bottom: 3px solid #4CAF50 !important;background-color: #fff;font-size: 16px;padding: 5px;text-transform: uppercase;border-bottom-right-radius: 5px;border-bottom-left-radius: 5px;">
+        <span id="tCategory"></span>
+    </div>
+  </div>
+  <div class="w3-quarter">
+   <div class="w3-container" style="border-bottom: 3px solid #4CAF50 !important;background-color: #fff;padding: 5px;border-bottom-right-radius: 5px;border-bottom-left-radius: 5px;">
+        <span id="tToken" class="tokening"></span> <button class="w3-button w3-tiny w3-round w3-green w3-right" style="font-size: 5px;padding: 4px 8px;" onclick="myShow()">Show</button>
+    </div>
+  </div>
+</div>
+
+ <div class="w3-row-padding">
+  <div class="w3-quarter w3-margin-bottom">
+    <div class="w3-card-4 w3-round">
+    <header class="w3-container w3-green">
+      <h3><i class="fa fa-users"></i> Class</h3>
+    </header>
+
+    <div class="w3-container" style="background-color: #fff;border: 1px solid #4CAF50 !important;">
+      <span id="t_class_nos"></span>
+    </div>
+  </div>
+  </div>
+  <div class="w3-quarter w3-margin-bottom">
+    <div class="w3-card-4 w3-round">
+    <header class="w3-container w3-green">
+      <h3><i class="fa fa-file-text"></i> Subject</h3>
+    </header>
+
+    <div class="w3-container" style="background-color: #fff;border: 1px solid #4CAF50 !important;">
+      <span id="t_subject_nos"></span>
+    </div>
+  </div>
+  </div>
+  <div class="w3-quarter w3-margin-bottom">
+    <div class="w3-card-4 w3-round">
+    <header class="w3-container w3-green">
+      <h3><i class="fa fa-youtube-play"></i> Videos</h3>
+    </header>
+
+    <div class="w3-container" style="background-color: #fff;border: 1px solid #4CAF50 !important;">
+      <span>Coming Soon...!</span>
+    </div>
+  </div>
+  </div>
+  <div class="w3-quarter w3-margin-bottom">
+    <div class="w3-card-4 w3-round">
+    <header class="w3-container w3-green">
+      <span id="t_note_nos" class="w3-right" style="font-size: 26px;margin-top: 10px;"></span>
+      <h3><i class="fa fa-sticky-note"></i> Notes</h3>
+    </header>
+    <div class="w3-container" style="background-color: #fff;border: 1px solid #4CAF50 !important;">
+      <ul id="note_response" class="w3-ul w3-small">
+        
+      </ul>
+    </div>
+  </div>
+  </div>
+  <div class="w3-quarter w3-margin-bottom">
+    <div class="w3-card-4 w3-round">
+    <header class="w3-container w3-green">
+       <span id="t_assignment_nos" class="w3-right" style="font-size: 26px;margin-top: 10px;"></span>
+      <h3><i class="fa fa-address-book"></i> Assignments</h3>
+    </header>
+    <div class="w3-container" style="background-color: #fff;border: 1px solid #4CAF50 !important;">
+      <ul id="assignment_response" class="w3-ul w3-small">
+        
+      </ul>
+    </div>
+  </div>
+  </div>
+  <div class="w3-quarter w3-margin-bottom">
+    <div class="w3-card-4 w3-round">
+    <header class="w3-container w3-green">
+      <span id="t_cat_nos" class="w3-right" style="font-size: 26px;margin-top: 10px;"></span>
+      <h3><i class="fa fa-file"></i> Assessment Tests</h3>
+    </header>
+    <div class="w3-container" style="background-color: #fff;border: 1px solid #4CAF50 !important;">
+      <ul id="assessment_response" class="w3-ul w3-small">
+        
+      </ul>
+    </div>
+  </div>
+  </div>
+  <div class="w3-quarter w3-margin-bottom">
+    <div class="w3-card-4 w3-round">
+    <header class="w3-container w3-green">
+       <span id="t_count" class="w3-badge w3-right w3-margin-right w3-red" style="margin-top: 15px;">0</span>
+      <h3><i class="fa fa-envelope"></i> Messages</h3>
+    </header>
+    <div class="w3-container" style="background-color: #fff;border: 1px solid #4CAF50 !important;">
+      <ul id="t_msg" class="w3-ul w3-small">
+        
+      </ul>
+    </div>
+  </div>
+  </div>
+</div> 
+
+</div>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="js/t_auth.js"></script>
+    <script type="text/javascript" src="js/t_constant.js"></script>
+    <script type="text/javascript" src="js/t_func.js"></script>
+    <script type="text/javascript" src="js/t_dashboard.js"></script>
+    <script>
+      $(document).ready(function(){
+         //var url = "http://www.alicesons.org/demos/phonegap/view.php";
+    var url = "http://www.alicesons.org/demos/phonegap/schoolone/getStudentNoteResponse.php";
+    var valdata = {teacher_no:localStorage.teacherSpecialID};
+    $.getJSON(url,valdata ,function(result) {
+        console.log(result);
+        $.each(result, function(i, field) {
+            var snc_id = field.snc_id;
+            var snc_school = field.snc_school;
+            var snc_class = field.snc_class;
+            var snc_subject = field.snc_subject;
+            var snc_note_id = field.snc_note_id;
+            var snc_topic = field.snc_topic;
+            var snc_description = field.snc_description;
+            var snc_comment = field.snc_comment;
+            var snc_created_by = field.snc_created_by;
+            var snc_comment_by = field.snc_comment_by;
+            var fname = field.student_fname;
+            var lname = field.student_lname;
+             $("#note_response").append('<li><a href="displayStudentNoteResponse.html?snc_id=' + snc_id + '&snc_school=' + snc_school + '&snc_class=' + snc_class + '&snc_subject=' + snc_subject + '&snc_note_id=' + snc_note_id + '&snc_topic=' + snc_topic + '&snc_description=' + snc_description + '&snc_comment=' + snc_comment + '&snc_comment_by=' + snc_comment_by + '&snc_created_by=' + snc_created_by + '&student_lastname=' + lname + '&student_firstname=' + fname + '">'+lname+' '+fname+'</a></li>');
+        });
+    });
+
+    var url = "http://www.alicesons.org/demos/phonegap/schoolone/getStudentAssignmentResponse.php";
+    var valdata2 = {teacher_no:localStorage.teacherSpecialID};
+    $.getJSON(url,valdata2 ,function(result) {
+        console.log(result);
+        $.each(result, function(i, field) {
+            var saa_id = field.saa_id;
+            var saa_assignment_id = field.saa_assignment_id;
+            var saa_school = field.saa_school;
+            var saa_class = field.saa_class;
+            var saa_subject = field.saa_subject;
+            var saa_topic = field.saa_topic;
+            var saa_description = field.saa_description;
+            var saa_student_response = field.saa_student_response;
+            var saa_student_no = field.saa_student_no;
+            var saa_teacher_no = field.saa_teacher_no;
+            var fname = field.student_fname;
+            var lname = field.student_lname;
+            $("#assignment_response").append('<li><a href="displayStudentAssignmentResponse.html?saa_id=' + saa_id + '&saa_school=' + saa_school + '&saa_class=' + saa_class + '&saa_subject=' + saa_subject + '&saa_assignment_id=' + saa_assignment_id + '&saa_topic=' + saa_topic + '&saa_description=' + saa_description + '&saa_comment=' + saa_student_response + '&saa_comment_by=' + saa_student_no + '&saa_created_by=' + saa_teacher_no + '&student_lastname=' + lname + '&student_firstname=' + fname + '">'+lname+' '+fname+'</a></li>');
+        });
+    });
+
+    var url = "http://www.alicesons.org/demos/phonegap/schoolone/getStudentAssessmentResponse.php";
+    var valdata3 = {teacher_no:localStorage.teacherSpecialID};
+    $.getJSON(url,valdata3 ,function(result) {
+        console.log(result);
+        $.each(result, function(i, field) {
+          var satas_id = field.satas_id;
+          var satas_satm_id = field.satas_satm_id;
+          var satas_school = field.satas_school;
+          var satas_class = field.satas_class;
+          var satas_subject = field.satas_subject;
+          var satas_topic = field.satas_topic;
+          var satas_student_no = field.satas_student_no;
+          var satas_teacher_no = field.satas_teacher_no;
+          var fname = field.student_fname;
+          var lname = field.student_lname;
+          $("#assessment_response").append('<li><a style="text-decoration:none;" href="displayStudentAssessmentResponse.html?satas_id='+satas_id+'&satas_satm_id='+satas_satm_id+'&satas_school='+satas_school+'&satas_class='+satas_class+'&satas_subject='+satas_subject+'&satas_topic='+satas_topic+'&satas_student_no='+satas_student_no+'&satas_teacher_no='+satas_teacher_no+'&satas_fname='+fname+'&satas_lname='+lname+'">'+lname+' '+fname+' - '+satas_class+'</a></li>');
+        });
+    });
+
+    //var url = "http://www.alicesons.org/demos/phonegap/view.php";
+    var url = "http://www.alicesons.org/demos/phonegap/schoolone/getTeacherMsgNotify.php";
+    var valdata4 = {teacher_no:localStorage.teacherSpecialID};
+    $.getJSON(url,valdata4 ,function(result) {
+        console.log(result);
+        $.each(result, function(i, field) {
+            var sm_id = field.sm_id;
+            var sm_special_id_from = field.sm_special_id_from;
+            var sm_special_id_to = field.sm_special_id_to;
+            var sm_subject = field.sm_subject;
+            var sm_message = field.sm_message;
+            var sm_status = field.sm_status;
+            var sm_date = field.sm_date;
+            var fname = field.register_fname;
+            var lname = field.register_lname;
+            String.prototype.nl2br = function(){
+                return this.replace(/\n/g, "<br />");
+            }
+            if(sm_status=="ACTIVE"){
+              var boldStatus = "font-weight:bolder;";
+            }else {
+              var boldStatus = "font-weight:normal;";
+            }
+            $("#t_msg").append('<li><a style="text-decoration:none;'+boldStatus+'" data-id="'+sm_id+'" id="message_id" href="javascript:;" onclick="document.getElementById('+sm_id+').style.display=\'block\'">'+sm_subject+'</a><div id="'+sm_id+'" class="w3-modal"><div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:900px;top:-30px;overflow-y: auto;height: auto !important;max-height:calc(100vh - 50px) !important;overflow-x: hidden;"><header class="w3-container w3-blue-grey"><button class="w3-button w3-right w3-blue" onclick="myReply('+sm_id+')"><i class="fa fa-mail-reply"></i> <b>Reply</b></button><button class="w3-button w3-right w3-blue" onclick="myForward('+sm_id+')" style="margin-right:5px;"><i class="fa fa-mail-forward"></i> <b>Forward</b></button><h2 class="h3">'+sm_subject+'</h2></header><div class="w3-container"><p><b>From:</b> '+lname+'  '+fname+'</p><p style="text-align:justify;">'+sm_message.nl2br()+'</p> <div id="myReply_'+sm_id+'" style="display:none;"><p><input id="reply_id" class="w3-input w3-border w3-light-grey" type="hidden" value="'+sm_id+'"><input id="reply_to" class="w3-input w3-border w3-light-grey" type="hidden" value="'+sm_special_id_from+'"><input id="reply_from" class="w3-input w3-border w3-light-grey" type="hidden" value="'+localStorage.teacherSpecialID+'"><input id="reply_subject" class="w3-input w3-border w3-light-grey" type="text" value="RE: '+sm_subject+'"></p><p><label class="w3-text-teal"><b>Reply Message</b></label><textarea id="reply_msg" class="w3-input w3-border w3-light-grey" style="resize:none"></textarea></p><p><button id="send_reply" class="w3-button w3-blue-grey w3-round" style="width:100%;"><b>Send Reply</b></button></p></div><div id="myForward_'+sm_id+'" style="display:none;"><p><input id="forward_id" class="w3-input w3-border w3-light-grey" type="hidden" value="'+sm_id+'"><input id="forward_from" class="w3-input w3-border w3-light-grey" type="hidden" value="'+localStorage.teacherSpecialID+'"><input id="forward_subject" class="w3-input w3-border w3-light-grey" type="text" value="FWD: '+sm_subject+'"></p><p><label class="w3-text-teal"><b>Forward To</b></label><select class="w3-select w3-border w3-light-grey" id="forward_to"></select></p><p><label class="w3-text-teal"><b>Forward Message</b></label><textarea id="forward_msg" class="w3-input w3-border w3-light-grey" style="resize:none">'+sm_message+'</textarea></p><p><button id="send_forward" class="w3-button w3-blue-grey w3-round" style="width:100%;"><b>Send Forward</b></button></p></div></div><div class="w3-container w3-light-grey w3-padding" style="position:relative;left:0;bottom:0;width: 100%;"><button id="msg_close" data-id2="'+sm_id+'" class="w3-button w3-right w3-white w3-border" onclick="document.getElementById('+sm_id+').style.display=\'none\'">Close</button></div></div></div></li>');
+        });
+    });
+
+    //var url = "http://www.alicesons.org/demos/phonegap/view.php";
+    var url = "http://www.alicesons.org/demos/phonegap/schoolone/getTeacherMsgNotifyCount.php";
+    var valdata5 = {teacher_no:localStorage.teacherSpecialID};
+    $.getJSON(url,valdata5 ,function(result) {
+        console.log(result);
+        $.each(result, function(i, field) {
+            var count = field.msg_count;
+            $("#t_count").text(count);
+        });
+    });
+
+    //var url = "http://www.alicesons.org/demos/phonegap/view.php";
+    var url = "http://www.alicesons.org/demos/phonegap/schoolone/getTeacherColleague.php";
+    var valdata5 = {teacher_no:localStorage.teacherSpecialID};
+    $.getJSON(url,valdata5 ,function(result) {
+        console.log(result);
+        $("#forward_to").append('<option value="0" selected>Select option</option>');
+        $.each(result, function(i, field) {
+            var s_id = field.teacher_special_id;
+            var fname = field.teacher_fname;
+            var lname = field.teacher_lname;
+            $("#forward_to").append('<option value="'+s_id+'">'+lname+' '+fname+'</option>');
+        });
+    });
+
+
+     //Registration function
+    //$("#send_reply").click(function(){
+    $(document).on('click', '#send_reply', function(){
+        var reply_id = $("#reply_id").val();
+        var reply_to = $("#reply_to").val();
+        var reply_from = $("#reply_from").val();
+        var reply_subject = $("#reply_subject").val();
+        var reply_msg = $("#reply_msg").val();
+
+        var dataString = "reply_from=" + reply_from + "&reply_to=" + reply_to + "&reply_msg=" + reply_msg + "&reply_subject=" + reply_subject + "&reply_id=" + reply_id + "&new_reply=";
+        if ($.trim(reply_from).length > 0) {
+            $.ajax({
+                type: "POST",
+                //url: "http://www.alicesons.org/demos/phonegap/schoolone/register.php",
+                url: "http://www.alicesons.org/demos/phonegap/schoolone/save_reply.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function(){ 
+                  $("#send_reply").html('<img src="img/loader.gif" />');
+                },
+                success: function(data){
+                    if (data == "success") {
+                        if(!alert("Reply sent successfully!.")){
+                            window.location.reload();
+                            $("#reply_msg").val("");
+                        }
+                    } else if (data == "error") {
+                        if(!alert("Their is an error sending your reply.")){
+                            window.location.reload();
+                           $("#reply_msg").val("");               
+                        }   
+                    }
+                },
+            });
+        }
+        return false;
+    });
+
+         //Registration function
+     $(document).on('click', '#send_forward', function(){
+    //$("#send_forward").click(function(){
+        var forward_id = $("#forward_id").val();
+        var forward_to = $("#forward_to").val();
+        var forward_from = $("#forward_from").val();
+        var forward_subject = $("#forward_subject").val();
+        var forward_msg = $("#forward_msg").val();
+
+        var dataString = "forward_from=" + forward_from + "&forward_to=" + forward_to + "&forward_msg=" + forward_msg + "&forward_subject=" + forward_subject + "&forward_id=" + forward_id + "&new_forward=";
+        if ($.trim(forward_from).length > 0 & $.trim(forward_subject).length > 0) {
+            $.ajax({
+                type: "POST",
+                //url: "http://www.alicesons.org/demos/phonegap/schoolone/register.php",
+                url: "http://www.alicesons.org/demos/phonegap/schoolone/save_forward.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function(){ 
+                  $("#send_forward").html('<img src="img/loader.gif" />');
+                },
+                success: function(data){
+                    if (data == "success") {
+                        if(!alert("Forward sent successfully!.")){
+                            window.location.reload();
+                            $("#forward_to").val("");
+                        }
+                    } else if (data == "error") {
+                        if(!alert("Their is an error sending your forwarded message.")){
+                            window.location.reload();
+                           $("#forward_to").val("");               
+                        }   
+                    }
+                },
+            });
+        }
+        return false;
+    });
+
+    $(document).on('click', '#message_id', function(e){
+    //$("").click(function(){
+      e.preventDefault();
+      var dataid = $(this).data('id'); 
+      var dataString = "dataid=" + dataid + "&new_status=";
+      $.ajax({
+        type: "POST",
+        url: "http://www.alicesons.org/demos/phonegap/schoolone/save_status.php",
+        data: dataString,
+      });
+    });
+
+    $(document).on('click', '#msg_close', function(){
+      window.location.reload();
+    });
+
+      });
+
+
+      function myShow() {
+        var xShow = document.getElementById("tToken");
+        if (xShow.style.display === "none") {
+          xShow.style.display = "block";
+        }else{
+          xShow.style.display = "none";
+        }
+      }  
+
+     function myReply(id){
+      var x = document.getElementById("myReply_"+id); 
+      if (x.style.display === "block") { 
+        x.style.display = "none"; 
+      } else { 
+        x.style.display = "block";
+      }
+    } 
+    function myForward(id){
+      var x = document.getElementById("myForward_"+id); 
+      if (x.style.display === "block") { 
+        x.style.display = "none"; 
+      } else { 
+        x.style.display = "block";
+      }
+    } 
+    </script>
+    <div style="margin-bottom: 40px;"></div>
+    <footer id="t_footer"> </footer>
+</body>
+</html>

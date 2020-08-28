@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <title>School One</title>
+
+    <link rel="stylesheet" type="text/css" href="w3css/4/w3.css">
+    <link rel="stylesheet" href="ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style type="text/css">
+      @media screen and (max-width: 455px) {
+      .h3 {
+        font-size:16px;
+      }
+     body {
+        font-size:10px;
+      }
+    }
+      .w3-note {
+        background-color: #ffffcc;
+        border-left: 6px solid #ffeb3b;
+      }
+      .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: red;
+        color: white;
+        text-align: center;
+      }
+    </style>
+</head>
+<body>
+  <div class="w3-container w3-green">
+    <h3><a href="home.html"><i class="fa fa-chevron-circle-left"></i></a>  New Notifications</h3>
+  </div>
+  <div id="notification" class="w3-container w3-margin-bottom">
+  
+  </div>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script src="ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        //var url = "http://www.alicesons.org/demos/phonegap/view.php";
+        var url = "http://www.alicesons.org/demos/phonegap/schoolone/getNotifications.php";
+        $.getJSON(url, function(result) {
+          console.log(result);
+          $.each(result, function(i, field) {
+            var noti_id = field.notification_id;
+            var noti_head = field.notification_head;
+            var noti_body = field.notification_body;
+            var noti_date = field.notification_date;
+            String.prototype.nl2br = function(){
+                return this.replace(/\n/g, "<br />");
+            }
+            $("#notification").append('<!-- notis start--><div class="w3-card-4 w3-margin-bottom w3-margin-top"><div class="w3-container w3-green"><h3 style="text-transform:uppercase;">'+noti_head+'</h3></div><div class="w3-container">'+noti_body.nl2br()+'</div><div class="w3-container w3-light-grey w3-padding"><span>'+noti_date+'</span></div></div><!-- notis end-->');
+          });
+        }); 
+      });
+    </script>
+
+<div style="margin-bottom: 100px;"></div>
+</body>
+</html>

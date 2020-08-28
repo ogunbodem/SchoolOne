@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <title>School One</title>
+
+    <link rel="stylesheet" type="text/css" href="w3css/4/w3.css">
+    <link rel="stylesheet" href="ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style type="text/css">
+       @media screen and (max-width: 455px) {
+      .h3 {
+        font-size:16px;
+      }
+     body {
+        font-size:10px;
+      }
+    }
+    </style>
+    <script type="text/javascript">
+      var url = window.location.pathname;
+      var filename = url.substring(url.lastIndexOf('/')+1);
+      if(localStorage.s_login=="true" && filename == 'login.html'){
+        window.location.href = "s_dashboard.html";
+      } else if (localStorage.s_login == null) {
+        window.location.href = "login.html";
+      }else if(localStorage.s_login=="false" && filename != 'login.html'){
+        window.location.href = "login.html";
+      }
+    </script>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="w3-sidebar w3-light-grey w3-card-4 w3-animate-left" style="display:none;width:250px;" id="mySidebar">
+  <div id="s_menu">
+    
+  </div>
+  <div class="w3-bar-block">
+    <a id="s_logout" class="w3-bar-item w3-button" href="javascript:;"><i class="fa fa-power-off"></i> Logout</a>
+  </div>
+</div>
+
+<!-- Page Content -->
+<div id="main">
+<div class="w3-green w3-display-container">
+  <button class="w3-button w3-green w3-xlarge" id="openNav" onclick="w3_open()"><i class="fa fa-bars"></i></button>
+  <div class="w3-container">
+    <img src="img/logo_white.png" style="width: 52px;height: 52px;margin-right:20px;" class="w3-right w3-margin-bottom">
+    <h1 class="h3" style="float: left;">Student Continuous Assessment Test</h1>
+  </div>
+</div>
+</div>
+<img src="img/sub_page_bg.jpg" alt="bg" style="width:100%;border-bottom: 5px solid #4CAF50 !important;">
+<div class="w3-container w3-margin-top">
+<a href="javascript: history.go(-1)" class="w3-button w3-green w3-tiny w3-right w3-margin-bottom"><i class="fa fa-chevron-circle-left"></i> Go Back</a><br>
+  <div class="w3-card-4 w3-margin-bottom w3-margin-top" style="border: 1px solid #4CAF50 !important;">
+    <form class="w3-container" id="assessmentForm">
+      <p style="font-weight: bolder;"><label class="w3-text-teal"><b>Student Class:</b></label> <span id="Class"></span></p>
+      <p style="font-weight: bolder;"><label class="w3-text-teal"><b>Subject:</b></label> <span id="Subject" ></span></p>
+      <p style="font-weight: bolder;"><label class="w3-text-teal"><b>Topic:</b></label> <span id="Topic"></span></p>
+      <p><label class="w3-text-teal"><b>Time:</b></label> <span id="time">15:00</span></p>
+      <hr>
+      <div id="assessmentContent">
+        
+      </div>
+    <p><button id="re_assessnment" class="w3-btn w3-blue-grey w3-round" style="width:100%;" type="submit"><b>Save Assessment Test</b></button></p>
+    </form>
+  </div>
+</div>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="js/s_auth.js"></script>
+    <script type="text/javascript" src="js/s_constant.js"></script>
+   <script type="text/javascript" src="js/getUrl.js"></script>
+    <script type="text/javascript" src="js/s_func.js"></script>
+    <script>
+      $(document).ready(function(){
+        var stud_no = localStorage.studentCardNumber;
+
+        var satm_id = decodeURI(getUrlVars()["satm_id"]);
+        var satm_school = decodeURI(getUrlVars()["satm_school"]);
+        var satm_class = decodeURI(getUrlVars()["satm_class"]);
+        var satm_subject = decodeURI(getUrlVars()["satm_subject"]);
+        var satm_topic = decodeURI(getUrlVars()["satm_topic"]);
+        var satm_teacher_no = decodeURI(getUrlVars()["satm_teacher_no"]);
+        var satm_created_date = decodeURI(getUrlVars()["satm_created_date"]);
+
+        //var queryString = satm_topic;
+
+        $("#Class").text(satm_class);
+        $("#Subject").text(satm_subject);
+        $("#Topic").text(satm_topic);
+        sessionStorage.setItem("topic", satm_topic);
+
+         //var url = "http://www.alicesons.org/demos/phonegap/view.php";
+          var url = "http://www.alicesons.org/demos/phonegap/schoolone/getStudentAssessmentTest.php";
+          var valdata = {stud_no:stud_no,satm_teacher_no:satm_teacher_no,satm_subject:satm_subject};
+          $.getJSON(url,valdata ,function(result) {
+            console.log(result);
+            $.each(result, function(i, field) {
+              var sat_school = field.sat_school;
+              var sat_class = field.sat_class;
+              var sat_subject = field.sat_subject;
+              var sat_topic = field.sat_topic;
+              var sat_question = field.sat_question;
+              var sat_option_a = field.sat_option_a;
+              var sat_option_b = field.sat_option_b;
+              var sat_option_c = field.sat_option_c;
+              var sat_option_d = field.sat_option_d;
+              var sat_option_e = field.sat_option_e;
+              var sat_created_date = field.sat_created_date;
+              var newDate = new Date(sat_created_date);
+              $("#assessmentContent").append('<p><input id="student_card_no" name="student_card_no" class="w3-input w3-border w3-light-grey" type="hidden" value="'+localStorage.studentCardNumber+'"><input id="satm_id" name="satm_id" class="w3-input w3-border w3-light-grey" type="hidden" value="'+satm_id+'"><input id="satm_date" name="satm_date" class="w3-input w3-border w3-light-grey" type="hidden" value="'+sat_created_date+'"><input id="satm_date" name="satm_subject" class="w3-input w3-border w3-light-grey" type="hidden" value="'+sat_subject+'"><input id="satm_by" name="satm_by" class="w3-input w3-border w3-light-grey" type="hidden" value="'+satm_teacher_no+'"><input id="satm_school" name="satm_school" class="w3-input w3-border w3-light-grey" type="hidden" value="'+sat_school+'"><input id="satm_class" name="satm_class" class="w3-input w3-border w3-light-grey" type="hidden" value="'+sat_class+'"><input id="satm_topic" name="satm_topic" class="w3-input w3-border w3-light-grey" type="hidden" value="'+sat_topic+'"></p><p><label class="w3-text-teal"><b>Question</b></label><input id="satm_question" name="satm_question[]" class="w3-input w3-border w3-light-grey" type="text" value="'+sat_question+'" readonly></p><p><input id="answer" class="w3-check" type="checkbox" name="answer[]" value="'+sat_option_a+'"> <label>'+sat_option_a+'</label><br><input id="answer" class="w3-check" type="checkbox" name="answer[]" value="'+sat_option_b+'"> <label>'+sat_option_b+'</label><br><input id="answer" class="w3-check" type="checkbox" name="answer[]" value="'+sat_option_c+'"> <label>'+sat_option_c+'</label><br><input id="answer" class="w3-check" type="checkbox" name="answer[]" value="'+sat_option_d+'"> <label>'+sat_option_d+'</label><br><input id="answer" class="w3-check" type="checkbox" name="answer[]" value="'+sat_option_e+'"> <label>'+sat_option_e+'</label></p>'); 
+            });
+          });
+
+          $("#assessmentForm").submit(function(){
+            var dataString = $(this).serialize();
+            $.ajax({
+              type: "POST",
+              //url: "http://www.alicesons.org/demos/phonegap/schoolone/register.php",
+              url: "http://www.alicesons.org/demos/phonegap/schoolone/save_set_assessment.php",
+              data: dataString,
+              crossDomain: true,
+              cache: false,
+              beforeSend: function(){ 
+                $("#re_assessnment").html('<img src="img/loader.gif" />');
+              },
+              success: function(data){
+                if (data == "success") {
+                  if(!alert("You have successfully submit your Continuous Assessment Test!.")){
+                    window.location.href = "success.html";
+                  }
+                } else if (data == "error") {
+                  if(!alert("Their is an error submitting your Continuous Assessment Test!.")){
+                    window.location.reload();
+                  }
+                }
+              },
+            });
+            return false;
+        });
+
+      });
+      
+      function startTimer(duration, display){
+        var timer = duration, minutes, seconds;
+        var myInterval = setInterval(function(){
+          minutes = parseInt(timer / 60, 10) 
+          seconds = parseInt(timer % 60, 10);
+          minutes = minutes < 10 ? "0" + minutes : minutes;
+          seconds = seconds < 10 ? "0" + seconds : seconds;
+          display.text(minutes + ":" + seconds);
+          if(--timer < 0){
+            timer = duration;
+            clearInterval(myInterval);
+            alert('Your Session as expires, and you can no longer continue!!!.');
+             var inputs = document.querySelectorAll('input[type="checkbox"]');
+             for (var i = 0; i <  inputs.length; i++) {
+              inputs[i].disabled = 'true';
+             }
+
+            window.location.href = "sorry.html";          
+          }
+        }, 1000);
+      }
+
+      jQuery(function($){
+        var myMinutes = 60 * 15, 
+        display = $('#time');
+        startTimer(myMinutes, display);
+      });
+
+      
+    </script>
+    <div style="margin-bottom: 40px;"></div>
+    <footer id="s_footer"></footer>
+</body>
+</html>

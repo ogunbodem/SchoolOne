@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <title>School One</title>
+
+    <link rel="stylesheet" type="text/css" href="w3css/4/w3.css">
+    <link rel="stylesheet" href="lib/w3-theme-blue-grey.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+    <link rel="stylesheet" href="ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style type="text/css">
+       @media screen and (max-width: 455px) {
+      .h3 {
+        font-size:16px;
+      }
+     body {
+        font-size:10px;
+      }
+    }
+    .tokening {
+        font-size:0.9vw;
+        display: none;
+        position: absolute;
+      }
+
+      @media only screen and (max-width: 600px) {
+        span.tokening {
+          font-size:10px; 
+        }
+      }
+      .myspan:nth-child(odd){
+
+      }
+    </style>
+    <script type="text/javascript">
+      
+      var url = window.location.pathname;
+      var filename = url.substring(url.lastIndexOf('/')+1);
+      if(localStorage.t_login=="true" && filename == 'login.html'){
+        window.location.href = "t_dashboard.html";
+      } else if (localStorage.t_login == null) {
+        window.location.href = "login.html";
+      }else if(localStorage.t_login=="false" && filename != 'login.html'){
+        window.location.href = "login.html";
+      }
+  </script>
+</head>
+<body class="w3-theme-l5">
+
+<!-- Sidebar -->
+<div class="w3-sidebar w3-light-grey w3-card-4 w3-animate-left" style="display:none;width:250px;" id="mySidebar">
+<div id="t_menu">
+  
+</div>
+  <div class="w3-bar-block">
+    <a id="t_logout" class="w3-bar-item w3-button" href="javascript:;"><i class="fa fa-power-off"></i> Logout</a>
+  </div>
+</div>
+
+<!-- Page Content -->
+<div id="main" class="main">
+<div class="w3-green w3-display-container">
+  <button class="w3-button w3-green w3-xlarge" id="openNav" onclick="w3_open()"><i class="fa fa-bars"></i></button>
+  <div class="w3-container">
+    <img src="img/logo_white.png" style="width: 52px;height: 52px;margin-right:20px;" class="w3-right w3-margin-bottom">
+    <h1 class="h3" style="float: left;">My Profile</h1>
+  </div>
+</div>
+</div>
+<img src="img/sub_page_bg.jpg" alt="bg" style="width:100%;border-bottom: 5px solid #4CAF50 !important;">
+<div class="w3-margin-top" style="width:100%;">
+    <span id="teacherNo"></span>
+
+     <!-- Alert Box -->
+      <div class="w3-container ">
+      <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom">
+        <span onclick="this.parentElement.style.display='none'" class="w3-button w3-theme-l3 w3-display-topright">
+          <i class="fa fa-remove"></i>
+        </span>
+        <p class="w3-center"><strong>Hey!</strong></p> 
+        <p class="w3-center">Welcome</p>
+        <h4 class="w3-center"></h4>
+      </div>
+    </div>
+    <!-- Alert Box end-->
+ 
+      <!-- Profile -->
+      <div class="w3-container ">
+        <div class="w3-card w3-round w3-white w3-margin-bottom">
+        <div class="w3-container">
+         <p class="w3-center"><img id="teacherPicture" class="w3-circle" style="height:200px;width:200px" alt="Avatar"></p>
+         <hr>
+         <p><i class="fa fa-user fa-fw w3-margin-right w3-text-theme"></i> <span id="teacherFullName"></span></p>        
+          <p><span id="status"></span> <span id="teacherStatus"></span></p>
+          <p><i class="fa fa-clock-o fa-fw w3-margin-right w3-text-theme"></i> Joined: <span id="teacherJoinDate"></span></p>
+        </div>
+      </div>
+      </div>  
+
+      <!-- Contact Details -->
+      <div class="w3-container ">
+      <div class="w3-card w3-round w3-white w3-margin-bottom">
+        <div class="w3-container">
+          <h2>Contact Details</h2>
+           <p id="myEmail"><i class="fa fa-envelope-o fa-fw w3-margin-right w3-text-theme"></i> <span id="teacherEmail"></span> </p>
+          <p id="myPhone"><i class="fa fa-mobile-phone fa-fw w3-margin-right w3-text-theme"></i> <span id="teacherMobile1"></span> </p>
+          </p>
+        </div>
+      </div>
+    </div>  
+     <!-- School Particular Access -->
+      <div class="w3-container ">
+      <div class="w3-card w3-round w3-white w3-margin-bottom">
+        <div class="w3-container">
+          <h2>Access Particular</h2>
+          <p><i class="fa fa-id-badge fa-fw w3-margin-right w3-text-theme"></i> <span id="teacherSpecial"></span> </p>
+          <p><i class="fa fa-circle-o fa-fw w3-margin-right w3-text-theme"></i> <span id="teacherCategory"></span> </p>
+          <p><i class="fa fa-university fa-fw w3-margin-right w3-text-theme"></i> <span id="teacherSchool"></span> </p>
+            
+          </p>
+        </div>
+      </div>
+    </div>
+           
+      <!-- Subject -->
+      <div class="w3-container ">
+      <div class="w3-card w3-round w3-white w3-margin-bottom">
+        <div class="w3-container">
+          <p>Subjects</p>
+          <p id="t_subject_nos">
+            
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- Class -->
+      <div class="w3-container ">
+      <div class="w3-card w3-round w3-white w3-margin-bottom">
+        <div class="w3-container">
+          <p>Classes</p>
+          <p id="t_class_nos">
+            
+          </p>
+        </div>
+      </div>
+    </div>
+
+  
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="js/t_auth.js"></script>
+    <script type="text/javascript" src="js/t_constant.js"></script>
+    <script type="text/javascript" src="js/t_func.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $("#teacherNo").append('<input type="hidden" id="teacher_no" value="'+localStorage.teacherSpecialID+'">');
+          var teacher_no = $("#teacher_no").val();
+          $.ajax({
+            type: 'GET',
+            url: 'http://www.alicesons.org/demos/phonegap/schoolone/getTeacherSubject.php',
+            dataType: 'json',
+            data: {teacher_no: teacher_no},
+            success:function(response){
+              var len = response.length;
+              var colors = ['w3-theme-d5','w3-theme-d4','w3-theme-d3','w3-theme-d2','w3-theme-d1','w3-theme','w3-theme-l1','w3-theme-l2','w3-theme-l3','w3-theme-l4','w3-theme-l5'];
+              $("#t_subject_nos").empty();
+              for(var n = 0; n<len; n++){
+                var subject_name = response[n]['subject_name'];
+                $("#t_subject_nos").append("<span class='w3-tag w3-small " + colors[n] + "' style='font-family: Verdana,sans-serif;line-height: 1.5;margin-right:5px;'>"+subject_name+"</span>");
+              }
+            }
+          });
+          $.ajax({
+            type: 'GET',
+            url: 'http://www.alicesons.org/demos/phonegap/schoolone/getTeacherClass.php',
+            dataType: 'json',
+            data: {teacher_no: teacher_no},
+            success:function(response){
+              var len = response.length;
+              var colors = ['w3-theme-l4','w3-theme-d3','w3-theme-d5','w3-theme-d4','w3-theme-d2','w3-theme-d1','w3-theme','w3-theme-l1','w3-theme-l2','w3-theme-l3','w3-theme-l5'];
+              $("#t_class_nos").empty();
+              for(var m = 0; m<len; m++){
+                var class_name = response[m]['class_name'];
+                $("#t_class_nos").append("<span class='w3-tag w3-small " + colors[m] + "' style='font-family: Verdana,sans-serif;line-height: 1.5;margin-right:5px;'>"+class_name+"</span>");
+              }
+            }
+          });
+         
+          //var url = "http://www.alicesons.org/demos/phonegap/view.php";
+          var url = "http://www.alicesons.org/demos/phonegap/schoolone/getTeacherInfo.php";
+          var valdata = {teacher_no:teacher_no};
+          $.getJSON(url,valdata ,function(result) {
+            console.log(result);
+            $.each(result, function(i, field) {
+              var teacher_special_id = field.teacher_special_id;
+              var teacher_access_token = field.teacher_access_token;
+              var teacher_fname = field.teacher_fname;
+              var teacher_lname = field.teacher_lname;
+              var teacher_mobile_number_1 = field.teacher_mobile_number_1;
+              var teacher_email = field.teacher_email;
+              var teacher_photo = field.teacher_photo_file_name;
+              var teacher_created_date = field.teacher_created_date;
+              var teacher_category = field.register_category;
+              var teacher_school = field.register_school;
+              var teacher_status = field.teacher_is_active;
+              var newDate = new Date(teacher_created_date);
+              $("#teacherSpecial").text(teacher_special_id);
+              $("#teacherAccessToken").text(teacher_access_token);
+              $("#teacherFullName").text(teacher_lname + ' ' + teacher_fname);
+              $("#teacherMobile1").text(teacher_mobile_number_1);
+              $("#teacherEmail").text(teacher_email);
+              $('#teacherPicture').attr('src', 'http://www.alicesons.org/demos/phonegap/schoolone/teacher/' + teacher_photo);
+              $("#teacherJoinDate").text(newDate.toDateString());
+              $("#teacherCategory").text(teacher_category);
+              $("#teacherSchool").text(teacher_school);
+              $("#teacherStatus").text(teacher_status);
+
+              if (teacher_email) {
+                $('#myEmail').append('<a href="mailto:' + teacher_email + '" class="w3-right" style="margin-top:-1px;"><img src="img/mail.png" style="width:16px;height:16px;"></a>');
+              }
+              if (teacher_mobile_number_1) {
+                $('#myPhone').append('<a href="sms:' + teacher_mobile_number_1 + '" class="w3-right" style="margin-top:-1px;"><img src="img/sms.png" style="width:16px;height:16px;"></a> <a href="tel:' + teacher_mobile_number_1 + '" class="w3-right" style="margin-top:-1px;"><img src="img/phone.png" style="width:16px;height:16px;"></a>');
+              }
+              if(teacher_status=="ACTIVE"){
+                $('#status').append('<i class="fa fa-toggle-on fa-fw w3-margin-right w3-text-green"></i>');
+              }else{
+                $('#status').append('<i class="fa fa-toggle-off fa-fw w3-margin-right w3-text-red"></i>');
+              }
+            });
+          });
+      });
+    </script>
+    <script>
+    // Accordion
+    function myFunction(id) {
+  var x = document.getElementById(id);
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+    x.previousElementSibling.className += " w3-theme-d1";
+  } else { 
+    x.className = x.className.replace("w3-show", "");
+    x.previousElementSibling.className = 
+    x.previousElementSibling.className.replace(" w3-theme-d1", "");
+  }
+}
+
+// Used to toggle the menu on smaller screens when clicking on the menu button
+function openNav() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+</script>
+    <div style="margin-bottom: 100px;"></div>
+    <footer id="t_footer"> </footer>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <title>School One</title>
+
+    <link rel="stylesheet" type="text/css" href="w3css/4/w3.css">
+    <link rel="stylesheet" href="ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style type="text/css">
+      @media screen and (max-width: 455px) {
+    .h3 {
+        font-size:16px;
+    }
+    body {
+        font-size:10px;
+      }
+}
+
+    </style>
+    <script type="text/javascript">
+      var url = window.location.pathname;
+      var filename = url.substring(url.lastIndexOf('/')+1);
+      if(localStorage.s_login=="true" && filename == 'login.html'){
+        window.location.href = "s_dashboard.html";
+      } else if (localStorage.s_login == null) {
+        window.location.href = "login.html";
+      }else if(localStorage.s_login=="false" && filename != 'login.html'){
+        window.location.href = "login.html";
+      }
+    </script>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="w3-sidebar w3-light-grey w3-card-4 w3-animate-left" style="display:none;width:250px;" id="mySidebar">
+  <div id="s_menu">
+    
+  </div>
+  <div class="w3-bar-block">
+    <a id="s_logout" class="w3-bar-item w3-button" href="javascript:;"><i class="fa fa-power-off"></i> Logout</a>
+  </div>
+</div>
+
+<!-- Page Content -->
+<div id="main">
+<div class="w3-green w3-display-container">
+  <button class="w3-button w3-green w3-xlarge" id="openNav" onclick="w3_open()"><i class="fa fa-bars"></i></button>
+  <div class="w3-container">
+    <img src="img/logo_white.png" style="width: 52px;height: 52px;margin-right:20px;" class="w3-right w3-margin-bottom">
+    <h1 class="h3" style="float: left;">Session Expired</h1>
+  </div>
+</div>
+</div>
+<img src="img/sub_page_bg.jpg" alt="bg" style="width:100%;border-bottom: 5px solid #4CAF50 !important;">
+<div class="w3-container w3-margin-top">
+  <div class="w3-card-4 w3-margin-bottom w3-margin-top" style="border: 1px solid #4CAF50 !important;">
+    <h1 class="w3-center h3">Your Session has expired, please contact your Administrator!!!</h1>
+  </div>
+  <p class="w3-center ">
+    <a class="w3-button w3-green w3-margin-bottom" href="s_dashboard.html">Go back</a>
+  </p>
+  
+</div>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="js/s_auth.js"></script>
+    <script type="text/javascript" src="js/s_constant.js"></script>
+   <script type="text/javascript" src="js/getUrl.js"></script>
+    <script type="text/javascript" src="js/s_func.js"></script>
+    <script>
+      $(document).ready(function(){
+        var stud_no = localStorage.studentCardNumber;
+        var satm_topic = sessionStorage.getItem("topic");
+        //localStorage.removeItem("satmTopic");
+        //console.log(satm_topic);
+        //$("#myTopic").text(satm_topic);
+        $.ajax({
+              type: "POST",
+              //url: "http://www.alicesons.org/demos/phonegap/schoolone/register.php",
+              url: "http://www.alicesons.org/demos/phonegap/schoolone/save_set_session.php",
+              data: {stud_no:stud_no,satm_topic:satm_topic},
+              crossDomain: true,
+              cache: false,
+        });
+        
+       });
+    </script>
+    <div style="margin-bottom: 40px;"></div>
+    <footer id="s_footer"></footer>
+</body>
+</html>

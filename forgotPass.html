@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <title>School One</title>
+
+    <link rel="stylesheet" type="text/css" href="w3css/4/w3.css">
+    <link rel="stylesheet" href="ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  <div class="w3-container w3-green">
+    <h3><a href="login.html"><i class="fa fa-chevron-circle-left"></i></a>  Forget Password</h3>
+  </div>
+<div class="w3-container w3-margin-bottom">
+
+<div class="w3-card-4 w3-margin-bottom w3-margin-top" style="border: 1px solid #4CAF50 !important;">
+  <form class="w3-container">
+  <p>      
+    <label class="w3-text-teal"><b>Card Number</b></label>
+    <input class="w3-input w3-border w3-light-grey" type="text" id="card_number">
+  </p>  
+  <p>      
+    <label class="w3-text-teal"><b>Email</b></label>
+    <input class="w3-input w3-border w3-light-grey" type="text" id="email">
+  </p>
+  <p style="text-align: center;">      
+    <button class="w3-btn w3-blue-grey w3-round" type="submit" id="forget_password" style="width: 100%;font-weight: bolder;">GET PASSWORD </button>
+  </p>
+  </form>
+</div>
+</div>
+
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="js/auth.js"></script>
+
+<div style="margin-bottom: 100px;"></div>
+</body>
+</html>

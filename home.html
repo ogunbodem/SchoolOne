@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+   <link rel="stylesheet" type="text/css" href="css/index_2.css" />
+    <title>School One</title>
+
+    <link rel="stylesheet" type="text/css" href="w3css/4/w3.css">
+    <link rel="stylesheet" href="lib/w3-theme-red.css">
+    <link rel="stylesheet" href="ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <style type="text/css">
+          @media screen and (max-width: 455px) {
+      .h3 {
+        font-size:16px;
+      }
+     body {
+        font-size:10px;
+      }
+    }
+      </style>
+</head>
+<body>
+
+  <div class="w3-container">
+    <img src="img/logo_white.png" class="logo">
+
+    <div class="exper">
+      <h4 class="head">Eazy Online Class</h4>
+      <div id="div1" class="bor">Experience a whole new world of online class simplified.</div>
+    </div>
+    <a href="notification.html" class="w3-button w3-large w3-circle w3-xlarge w3-ripple w3-white bell_noti w3-right" style="z-index:0"><i class="fa fa-bell"></i></a>    
+    <div class="caption">
+      <div class="w3-container" style="position: relative;">
+        <a href="login.html" class="w3-btn w3-white w3-round login_btn">login</a>
+        <hr class="horizontal">
+      <span class="border w3-left" ><a href="register.html" class="linking">Register</a></span>
+      <span class="border w3-right"><a href="help.html" class="linking">Help</a></span>
+      </div>
+    </div>
+  </div>  
+ 
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+
+<div style="margin-bottom: 100px;"></div>
+</body>
+</html>

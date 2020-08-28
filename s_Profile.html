@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <title>School One</title>
+
+    <link rel="stylesheet" type="text/css" href="w3css/4/w3.css">
+    <link rel="stylesheet" href="lib/w3-theme-blue-grey.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+    <link rel="stylesheet" href="ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style type="text/css">
+      @media screen and (max-width: 455px) {
+      .h3 {
+        font-size:16px;
+      }
+      body {
+        font-size:10px;
+      }
+    }
+    .tokening {
+        font-size:0.9vw;
+        display: none;
+        position: absolute;
+      }
+
+      @media only screen and (max-width: 600px) {
+        span.tokening {
+          font-size:10px; 
+        }
+      }
+    </style>
+    <script type="text/javascript">
+      
+      var url = window.location.pathname;
+      var filename = url.substring(url.lastIndexOf('/')+1);
+      if(localStorage.s_login=="true" && filename == 'login.html'){
+        window.location.href = "s_dashboard.html";
+      } else if (localStorage.s_login == null) {
+        window.location.href = "login.html";
+      }else if(localStorage.s_login=="false" && filename != 'login.html'){
+        window.location.href = "login.html";
+      }
+  </script>
+</head>
+<body class="w3-theme-l5">
+
+<!-- Sidebar -->
+<div class="w3-sidebar w3-light-grey w3-card-4 w3-animate-left" style="display:none;width:250px;" id="mySidebar">
+<div id="s_menu">
+  
+</div>
+  <div class="w3-bar-block">
+    <a id="s_logout" class="w3-bar-item w3-button" href="javascript:;"><i class="fa fa-power-off"></i> Logout</a>
+  </div>
+</div>
+
+<!-- Page Content -->
+<div id="main" class="main">
+<div class="w3-green w3-display-container">
+  <button class="w3-button w3-green w3-xlarge" id="openNav" onclick="w3_open()"><i class="fa fa-bars"></i></button>
+  <div class="w3-container">
+    <img src="img/logo_white.png" style="width: 52px;height: 52px;margin-right:20px;" class="w3-right w3-margin-bottom">
+    <h1 class="h3" style="float: left;">My Profile</h1>
+  </div>
+</div>
+</div>
+<img src="img/sub_page_bg.jpg" alt="bg" style="width:100%;border-bottom: 5px solid #4CAF50 !important;">
+<div class="w3-margin-top" style="width:100%;">
+    <p id="sDetails"></p>
+   
+     <!-- Alert Box -->
+      <div class="w3-container ">
+      <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom">
+        <span onclick="this.parentElement.style.display='none'" class="w3-button w3-theme-l3 w3-display-topright">
+          <i class="fa fa-remove"></i>
+        </span>
+        <p class="w3-center"><strong>Hey!</strong></p>
+        <p class="w3-center">Welcome</p>
+        <h4 class="w3-center"></h4>
+      </div>
+    </div>
+    <!-- Alert Box end-->
+
+    <!-- friend request start -->
+    <div id="friend_request_list" class="w3-container">
+    
+    </div>
+    <!-- friend request end -->
+ 
+      <!-- Profile -->
+      <div class="w3-container ">
+        <div class="w3-card w3-round w3-white w3-margin-bottom">
+        <div class="w3-container">
+         <p class="w3-center"><img id="studentPicture" class="w3-circle" style="height:200px;width:200px" alt="Avatar"></p>
+         <hr>
+         <p><i class="fa fa-user fa-fw w3-margin-right w3-text-theme"></i> <span id="studentFullName"></span></p>        
+          <p><span id="status"></span> <span id="studentStatus"></span></p>
+          <p><i class="fa fa-building-o fa-fw w3-margin-right w3-text-theme"></i> <span id="studentClass"></span></p>
+          <p><i class="fa fa-clock-o fa-fw w3-margin-right w3-text-theme"></i> Joined: <span id="studentJoinDate"></span></p>
+        </div>
+      </div>
+      </div>  
+
+      <!-- Contact Details -->
+      <div class="w3-container ">
+      <div class="w3-card w3-round w3-white w3-margin-bottom">
+        <div class="w3-container">
+          <h2>Contact Details</h2>
+           <p id="myEmail"><i class="fa fa-envelope-o fa-fw w3-margin-right w3-text-theme"></i> <span id="studentEmail"></span> </p>
+          <p id="myPhone"><i class="fa fa-mobile-phone fa-fw w3-margin-right w3-text-theme"></i> <span id="studentMobile1"></span> </p>
+          </p>
+        </div>
+      </div>
+    </div>  
+     <!-- School Particular Access -->
+      <div class="w3-container ">
+      <div class="w3-card w3-round w3-white w3-margin-bottom">
+        <div class="w3-container">
+          <h2>Access Particular</h2>
+          <p><i class="fa fa-id-badge fa-fw w3-margin-right w3-text-theme"></i> <span id="studentSpecial"></span> </p>
+          <p><i class="fa fa-university fa-fw w3-margin-right w3-text-theme"></i> <span id="studentSchool"></span> </p>
+        </div>
+      </div>
+    </div>
+           
+      <!-- Subject -->
+      <div class="w3-container ">
+      <div class="w3-card w3-round w3-white w3-margin-bottom">
+        <div class="w3-container">
+          <p>Subjects</p>
+          <p id="s_subject_nos">
+            
+          </p>
+        </div>
+      </div>
+    </div>
+
+     <!-- Accordion -->
+     <div class="w3-container">
+      <div class="w3-card w3-round">
+        <div class="w3-white">
+          <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> My Classmates</button>
+          <div id="Demo1" class="w3-hide w3-container">
+            <ul id="s_cla_student" class="w3-ul w3-card">
+                
+              </ul>
+          </div>
+          <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i> My Friends</button>
+          <div id="Demo2" class="w3-hide w3-container">
+            <p id="friend_list"></p>
+          </div>
+          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-picture-o fa-fw w3-margin-right"></i> My Photos</button>
+          <div id="Demo3" class="w3-hide w3-container">
+         <div class="w3-row-padding">
+         <br>
+           <div class="w3-half">
+             <img src="../w3images/lights.jpg" style="width:100%" class="w3-margin-bottom">
+           </div>
+           <div class="w3-half">
+             <img src="../w3images/nature.jpg" style="width:100%" class="w3-margin-bottom">
+           </div>
+           <div class="w3-half">
+             <img src="../w3images/mountains.jpg" style="width:100%" class="w3-margin-bottom">
+           </div>
+           <div class="w3-half">
+             <img src="../w3images/forest.jpg" style="width:100%" class="w3-margin-bottom">
+           </div>
+           <div class="w3-half">
+             <img src="../w3images/nature.jpg" style="width:100%" class="w3-margin-bottom">
+           </div>
+           <div class="w3-half">
+             <img src="../w3images/snow.jpg" style="width:100%" class="w3-margin-bottom">
+           </div>
+         </div>
+          </div>
+           <button onclick="myFunction('Demo4')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-building-o fa-fw w3-margin-right"></i> School Mates</button>
+          <div id="Demo4" class="w3-hide">
+              <ul id="s_all_student" class="w3-ul w3-card">
+                
+              </ul>
+          </div>
+        </div>      
+      </div>
+    </div>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="js/s_auth.js"></script>
+    <script type="text/javascript" src="js/s_constant.js"></script>
+    <script type="text/javascript" src="js/s_func.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        var stud_no = localStorage.studentCardNumber;
+        //var student_no = localStorage.studentCardNumber;
+        var student_sch = $("#student_sch").val();
+        var student_cla = $("#student_cla").val();
+        var spec_id = $("#special_id").val();
+          $.ajax({
+            type: 'GET',
+            url: 'http://www.alicesons.org/demos/phonegap/schoolone/getStudentSubject.php',
+            dataType: 'json',
+            data: {stud_no: stud_no},
+            success:function(response){
+              var len = response.length;
+              var colors = ['w3-theme-d5','w3-theme-d4','w3-theme-d3','w3-theme-d2','w3-theme-d1','w3-theme','w3-theme-l1','w3-theme-l2','w3-theme-l3','w3-theme-l4','w3-theme-l5'];
+              $("#s_subject_nos").empty();
+              for(var n = 0; n<len; n++){
+                var subject_name = response[n]['subject_name'];
+                $("#s_subject_nos").append("<span class='w3-tag w3-small " + colors[n] + "' style='font-family: Verdana,sans-serif;line-height: 1.5;margin-right:5px;margin-bottom:5px;'>"+subject_name+"</span>");
+              }
+            }
+          });
+
+          //var url = "http://www.alicesons.org/demos/phonegap/view.php";
+        var url = "http://www.alicesons.org/demos/phonegap/schoolone/getStudentDetails.php";
+        var valdata = {stud_no:stud_no};
+        $.getJSON(url,valdata ,function(result) {
+          console.log(result);
+          $.each(result, function(i, field) {
+            var special_id = field.register_special_id;
+            var student_cla = field.register_class;
+            var student_sch = field.register_school;
+            $("#sDetails").append('<input type="hidden" id="student_cla" value="'+student_cla+'"><input type="hidden" id="student_sch" value="'+student_sch+'"><input type="hidden" id="special_id" value="'+special_id+'">');
+          });
+        });
+
+          $.ajax({
+            type: 'GET',
+            url: 'http://www.alicesons.org/demos/phonegap/schoolone/getAllStudentOfSameSchool.php',
+            dataType: 'json',
+            data: {stud_no:stud_no},
+            success:function(response){
+              var len = response.length;
+              for(var n = 0; n<len; n++){
+                var ssID = response[n]['ssID'];
+                var s_fname = response[n]['sfname'];
+                var s_lname = response[n]['slname'];
+                var s_photo = response[n]['sPhoto'];
+                var s_class = response[n]['sClass'];
+                var s_cardNo = response[n]['sCardNo'];               
+                $("#s_all_student").append('<li class="w3-bar"><img src="http://www.alicesons.org/demos/phonegap/schoolone/student/'+s_photo+'" class="w3-left w3-round" style="width:85px;"><div class="w3-bar-item" style="padding: 4px 12px;"><span>'+s_lname+' '+s_fname+'</span><br><span class="w3-small">'+s_class+'</span><br><input type="hidden" id="friend_card_number" value="'+s_cardNo+'"><a href="javascript:;" id="add_friend" data-id3="'+ssID+'" class="w3-button w3-red w3-tiny w3-round" style="font-size: 5px;padding: 4px 8px;">Add as Friend</a></div></li>');
+              }
+            }
+          });
+          $.ajax({
+            type: 'GET',
+            url: 'http://www.alicesons.org/demos/phonegap/schoolone/getAllStudentOfSameClass.php',
+            dataType: 'json',
+            data: {stud_no:stud_no},
+            success:function(response){
+              var len = response.length;
+              for(var n = 0; n<len; n++){
+                var scID = response[n]['scID'];
+                var s_fname = response[n]['sfname'];
+                var s_lname = response[n]['slname'];
+                var s_photo = response[n]['sPhoto'];
+                var s_class = response[n]['sClass'];
+                var s_cardNo = response[n]['sCardNo'];
+
+                $("#s_cla_student").append('<li class="w3-bar"><img src="http://www.alicesons.org/demos/phonegap/schoolone/student/'+s_photo+'" class="w3-left w3-round" style="width:85px;"><div class="w3-bar-item" style="padding: 4px 10px;"><span>'+s_lname+' '+s_fname+'</span><br><span class="w3-small">'+s_class+'</span><br><button onclick="document.getElementById('+scID+').style.display=\'block\'" class="w3-button w3-red w3-tiny w3-round" style="font-size: 5px;padding: 4px 8px;">Send Message</button></div></li><div id="'+scID+'" class="w3-modal"><div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px"><form class="w3-container" method="POST" id="formClassMate"><div class="w3-section"><label>Sending... message to <b>'+s_lname+' '+s_fname+'</b></label><br><label><b>Message</b></label><textarea class="w3-input w3-border" style="resize:none" name="msg" id="msg"></textarea><input type="hidden" name="msg_receiver" id="msg_receiver" value="'+s_cardNo+'"><input type="hidden" name="msg_sender" id="msg_sender" value="'+stud_no+'"><button class="w3-button w3-block w3-green w3-section w3-padding" type="submit" id="send_class_chat">Send Chat</button></div></form><div class="w3-container w3-border-top w3-padding-16 w3-light-grey"><button onclick="document.getElementById('+scID+').style.display=\'none\'" type="button" class="w3-button w3-red">Cancel</button></div></div>');
+              }
+            }
+          });
+
+          $("#formClassMate").submit(function(){
+          var dataString = $(this).serialize();
+             $.ajax({
+                type: "POST",
+                //url: "http://www.alicesons.org/demos/phonegap/schoolone/register.php",
+                url: "http://www.alicesons.org/demos/phonegap/schoolone/postClassMateMsg.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function(){ 
+                    $("#send_class_chat").html('<img src="img/loader.gif" />');
+                },
+                success: function(data){
+                    if (data == "success") {
+                        if(!alert("Chat Sent successfully!.")){
+                            window.location.reload();
+                        }
+                    } else if (data == "error") {
+                        if(!alert("Their is an error sending your message!.")){
+                            window.location.reload();
+                        }
+                    }
+                },
+            });
+            return false;
+        });
+
+          //to check after i woke up for friend request
+          //$(document).on('click', '#add_friend', function(){
+          $(document).on('click','#add_friend', function(){
+            var friend_data_id = $(this).data('id3');
+            var friend_card_number = $("#friend_card_number").val();
+            var sender_card_number = localStorage.studentCardNumber;
+
+            var dataString = "newFriend=" + friend_card_number + "&oldFriend=" + sender_card_number + "&friendDataID=" + friend_data_id + "&new_friend_request=";
+            if ($.trim(friend_card_number).length > 0 & $.trim(sender_card_number).length > 0 & $.trim(friend_data_id).length > 0) {
+              $.ajax({
+                type: 'POST',
+                url: 'http://www.alicesons.org/demos/phonegap/schoolone/postFriendRequest.php',
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function(){ 
+                  $("#add_friend").html('<img src="img/loader.gif" />');
+                },
+                success:function(data){
+                  setTimeout(function(){
+                    $('#add_friend').fadeOut(function(){
+                      window.location.reload();
+                    });
+                  }, 5000);
+                },
+              });
+            }
+            return false;
+          });
+
+
+          //to check after i woke up for friend request
+          var get_friend_request = localStorage.studentCardNumber;
+          var url = "http://www.alicesons.org/demos/phonegap/schoolone/getFriendRequest.php";
+          var valdata4 = {get_friend_request:get_friend_request};
+          $.getJSON(url,valdata4 ,function(result) {
+            console.log(result);
+            $.each(result, function(i, field) {
+              var frID = field.fr_id;
+              var fname = field.student_fname;
+              var lname = field.student_lname;
+              var classs = field.student_class;
+              var fr_photo = field.student_photo_file_name;
+              $("#friend_request_list").append('<div class="w3-card w3-round w3-white w3-center w3-margin-bottom"><div class="w3-container"><p>Friend Request</p><img class="w3-round" src="http://www.alicesons.org/demos/phonegap/schoolone/student/'+fr_photo+'" alt="Avatar" style="width:50%;margin-bottom: 5px;"><br><span>'+lname+' '+fname+'</span><br><span>'+classs+'</span><div class="w3-row"><div class="w3-half"><button id="fr_accept" data-id="'+frID+'" class="w3-button w3-block w3-green w3-round" style="margin-bottom: 5px;margin-top: 5px;"><i class="fa fa-check"></i> Accept</button></div><div class="w3-half"><button id="fr_reject" data-id2="'+frID+'" class="w3-button w3-block w3-red w3-round" style="margin-bottom: 5px;margin-top: 5px;" title="Decline"><i class="fa fa-remove"></i> Reject</button></div></div></div></div>');
+            });
+          });
+
+          //to check after i woke up for friend request
+          var get_friend_list = localStorage.studentCardNumber;
+          var url = "http://www.alicesons.org/demos/phonegap/schoolone/getFriendList.php";
+          var valdata5 = {get_friend_list:get_friend_list};
+          $.getJSON(url,valdata5 ,function(result) {
+            console.log(result);
+            $.each(result, function(i, field) {
+              var frlID = field.fr_id;
+              var fname = field.student_fname;
+              var lname = field.student_lname;
+              var classs = field.student_class;
+              var card = field.student_card_number;
+              var fr_photo = field.student_photo_file_name;
+              $("#friend_list").append('<li class="w3-bar w3-margin-bottom"><img src="http://www.alicesons.org/demos/phonegap/schoolone/student/'+fr_photo+'" class="w3-left w3-round" style="width:85px;"><div class="w3-bar-item" style="padding: 4px 12px;"><span>'+lname+' '+fname+'</span><br><span class="w3-small">'+classs+'</span><br><input type="hidden" id="myfriend_card_number" value="'+card+'"><button onclick="document.getElementById('+frlID+').style.display=\'block\'" class="w3-button w3-red w3-tiny w3-round" style="font-size: 5px;padding: 4px 8px;">Send Chat</button></div></li><div id="'+frlID+'" class="w3-modal"><div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px"><form class="w3-container" method="POST" id="formFriendList"><div class="w3-section"><label>Sending... message to <b>'+lname+' '+fname+'</b></label><br><label><b>Message</b></label><textarea class="w3-input w3-border" style="resize:none" name="sch_mate_msg" id="sch_mate_msg"></textarea><input type="hidden" name="sch_mate_msg_receiver" id="sch_matemsg_receiver" value="'+card+'"><input type="hidden" name="sch_mate_msg_sender" id="sch_mate_msg_sender" value="'+stud_no+'"><button class="w3-button w3-block w3-green w3-section w3-padding" type="submit" id="send_fri_chat">Send Chat</button></div></form><div class="w3-container w3-border-top w3-padding-16 w3-light-grey"><button onclick="document.getElementById('+frlID+').style.display=\'none\'" type="button" class="w3-button w3-red">Cancel</button></div></div>');
+            });
+          });
+
+          $("#formFriendList").submit(function(){
+          var dataString = $(this).serialize();
+             $.ajax({
+                type: "POST",
+                //url: "http://www.alicesons.org/demos/phonegap/schoolone/register.php",
+                url: "http://www.alicesons.org/demos/phonegap/schoolone/postFriendListMsg.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function(){ 
+                    $("#send_fri_chat").html('<img src="img/loader.gif" />');
+                },
+                success: function(data){
+                    if (data == "success") {
+                        if(!alert("Chat Sent successfully!.")){
+                            window.location.reload();
+                        }
+                    } else if (data == "error") {
+                        if(!alert("Their is an error sending your message!.")){
+                            window.location.reload();
+                        }
+                    }
+                },
+            });
+            return false;
+        });
+
+
+          //to check after i woke up for friend request
+          //$(document).on('click', '#add_friend', function(){
+          $(document).on('click','#fr_accept', function(){
+            var friend_accept_id = $(this).data('id');
+
+            var dataString = "newFriendAccept=" + friend_accept_id + "&new_friend_accept=";
+            if ($.trim(friend_accept_id).length > 0) {
+              $.ajax({
+                type: 'POST',
+                url: 'http://www.alicesons.org/demos/phonegap/schoolone/postFriendRequestAccept.php',
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function(){ 
+                  $("#fr_accept").html('<img src="img/loader.gif" />');
+                },
+                success:function(data){
+                  setTimeout(function(){
+                    $('#fr_accept').fadeOut(function(){
+                      window.location.reload();
+                    });
+                  }, 5000);
+                },
+              });
+            }
+            return false;
+          });
+
+          //to check after i woke up for friend request
+          //$(document).on('click', '#add_friend', function(){
+          $(document).on('click','#fr_reject', function(){
+            var friend_reject_id = $(this).data('id2');
+
+            var dataString = "newFriendReject=" + friend_reject_id + "&new_friend_reject=";
+            if ($.trim(friend_reject_id).length > 0) {
+              $.ajax({
+                type: 'POST',
+                url: 'http://www.alicesons.org/demos/phonegap/schoolone/postFriendRequestReject.php',
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function(){ 
+                  $("#fr_reject").html('<img src="img/loader.gif" />');
+                },
+                success:function(data){
+                  setTimeout(function(){
+                    $('#fr_reject').fadeOut(function(){
+                      window.location.reload();
+                    });
+                  }, 5000);
+                },
+              });
+            }
+            return false;
+          });
+
+          //to check classmate list and friend list, friend request list. want to create list of teachers, student and parent to get accurate list to display.
+
+
+          //var url = "http://www.alicesons.org/demos/phonegap/view.php";
+          var url = "http://www.alicesons.org/demos/phonegap/schoolone/getStudentInfo.php";
+          var valdata = {stud_no:stud_no};
+          $.getJSON(url,valdata ,function(result) {
+            console.log(result);
+            $.each(result, function(i, field) {
+              var student_special_id = field.student_special_id;
+              var student_access_token = field.student_access_token;
+              var student_fname = field.student_fname;
+              var student_lname = field.student_lname;
+              var student_mobile_number_1 = field.student_mobile_number_1;
+              var student_email = field.student_email;
+              var student_photo = field.student_photo_file_name;
+              var student_created_date = field.student_created_date;
+              var student_school = field.student_school;
+              var student_class = field.student_class;
+              var student_status = field.student_is_active;
+              var newDate = new Date(student_created_date);
+              $("#studentSpecial").text(student_special_id);
+              $("#studentAccessToken").text(student_access_token);
+              $("#studentFullName").text(student_lname + ' ' + student_fname);
+              $("#studentMobile1").text(student_mobile_number_1);
+              $("#studentEmail").text(student_email);
+              $('#studentPicture').attr('src', 'http://www.alicesons.org/demos/phonegap/schoolone/student/' + student_photo);
+              $("#studentJoinDate").text(newDate.toDateString());
+              $("#studentSchool").text(student_school);
+              $("#studentClass").text(student_class);
+              $("#studentStatus").text(student_status);
+
+              if (student_email) {
+                $('#myEmail').append('<a href="mailto:' + student_email + '" class="w3-right" style="margin-top:-1px;"><img src="img/mail.png" style="width:16px;height:16px;"></a>');
+              }
+              if (student_mobile_number_1) {
+                $('#myPhone').append('<a href="sms:' + student_mobile_number_1 + '" class="w3-right" style="margin-top:-1px;"><img src="img/sms.png" style="width:16px;height:16px;"></a> <a href="tel:' + student_mobile_number_1 + '" class="w3-right" style="margin-top:-1px;"><img src="img/phone.png" style="width:16px;height:16px;"></a>');
+              }
+              if(student_status=="ACTIVE"){
+                $('#status').append('<i class="fa fa-toggle-on fa-fw w3-margin-right w3-text-green"></i>');
+              }else{
+                $('#status').append('<i class="fa fa-toggle-off fa-fw w3-margin-right w3-text-red"></i>');
+              }
+            });
+          });
+      });
+    </script>
+    <script>
+    // Accordion
+    function myFunction(id) {
+  var x = document.getElementById(id);
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+    x.previousElementSibling.className += " w3-theme-d1";
+  } else { 
+    x.className = x.className.replace("w3-show", "");
+    x.previousElementSibling.className = 
+    x.previousElementSibling.className.replace(" w3-theme-d1", "");
+  }
+}
+
+// Used to toggle the menu on smaller screens when clicking on the menu button
+function openNav() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+</script>
+    <div style="margin-bottom: 100px;"></div>
+    <footer id="s_footer"> </footer>
+</body>
+</html>

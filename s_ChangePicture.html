@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'" />-->
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <title>School One</title>
+
+    <link rel="stylesheet" type="text/css" href="w3css/4/w3.css">
+    <link rel="stylesheet" href="ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style type="text/css">
+       @media screen and (max-width: 455px) {
+      .h3 {
+        font-size:16px;
+      }
+     body {
+        font-size:10px;
+      }
+    }
+     .column {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
+
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 500px) {
+  .column {
+    width: 70%;
+  }
+}
+    </style>
+    <script type="text/javascript">
+       var url = window.location.pathname;
+      var filename = url.substring(url.lastIndexOf('/')+1);
+      if(localStorage.s_login=="true" && filename == 'login.html'){
+        window.location.href = "s_dashboard.html";
+      } else if (localStorage.s_login == null) {
+        window.location.href = "login.html";
+      }else if(localStorage.s_login=="false" && filename != 'login.html'){
+        window.location.href = "login.html";
+      }
+    </script>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="w3-sidebar w3-light-grey w3-card-4 w3-animate-left" style="display:none;width:250px;" id="mySidebar">
+  <div id="s_menu">
+    
+  </div>
+  <div class="w3-bar-block">
+    <a id="s_logout" class="w3-bar-item w3-button" href="javascript:;"><i class="fa fa-power-off"></i> Logout</a>
+  </div>
+</div>
+
+<!-- Page Content -->
+<div id="main">
+<div class="w3-green w3-display-container">
+  <button class="w3-button w3-green w3-xlarge" id="openNav" onclick="w3_open()"><i class="fa fa-bars"></i></button>
+  <div class="w3-container">
+    <img src="img/logo_white.png" style="width: 52px;height: 52px;margin-right:20px;" class="w3-right w3-margin-bottom">
+    <h1 class="h3" style="float: left;">Change Picture</h1>
+  </div>
+</div>
+</div>
+<img src="img/sub_page_bg.jpg" alt="bg" style="width:100%;border-bottom: 5px solid #4CAF50 !important;">
+<div class="w3-container  w3-margin-bottom">
+     
+    <form >
+ <p id="hidden_input"></p>
+  <div class="w3-card-4 w3-margin-bottom w3-margin-top" style="border: 1px solid #4CAF50 !important;">
+  <div class="w3-container">
+
+    <p>
+      <img src="img/cam.jpg" id='img' style="width: 100%;border: 1px solid #4CAF50 !important;">
+    </p>
+    <p>
+      <button class="w3-btn w3-blue-grey w3-round" type="button" id="bus_take" style="width: 100%;font-weight: bolder;">TAKE PHOTO</button>
+    </p>
+    <p>
+      <button class="w3-btn w3-blue-grey w3-round" type="button" id="bus_select" style="width: 100%;font-weight: bolder;">SELECT PHOTO FROM GALLERY</button>
+    </p>
+
+  </div>
+</div>
+
+  </form>
+</div>
+
+     <script type="text/javascript" src="cordova.js"></script>
+    <script src="ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="js/s_auth.js"></script>
+    <script type="text/javascript" src="js/s_constant.js"></script>
+     <script type="text/javascript" src="js/s_func.js"></script>
+     <script type="text/javascript">
+       $(document).ready(function(){
+
+         $('#hidden_input').append('<input type="hidden" id="s_special_number" value="'+ localStorage.studentCardNumber +'">');
+
+    // take picture from camera
+    $('#bus_take').click(function(){      
+        navigator.camera.getPicture(onSuccess, onFail, { 
+            quality: 20, 
+            destinationType: Camera.DestinationType.FILE_URL 
+        });
+    });
+
+    // upload select 
+    $("#bus_select").click(function(){
+        navigator.camera.getPicture(onSuccess, onFail, { 
+            quality: 50,
+            sourceType: Camera.PictureSourceType.PHOTOLIBRARY, 
+            allowEdit: true,
+            destinationType: Camera.DestinationType.FILE_URI
+        });
+    });
+
+    // Change image source and upload photo to server
+    function onSuccess(imageURI) {
+
+        // Set image source
+        var image = document.getElementById('img');
+        image.src = imageURI  + '?' + Math.random();
+                
+        var options = new FileUploadOptions();
+        options.fileKey = "file";
+        options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
+        options.mimeType = "image/jpeg";
+        options.chunkedMode = true; 
+                
+        var params = new object(); 
+        params.special_number = $("#s_special_number").val();
+
+        options.params = params;
+        
+
+        var ft = new FileTransfer();
+        ft.upload(imageURI, "http://www.alicesons.org/demos/phonegap/schoolone/s_UploadPicture.php", function(result){
+            alert('successfully uploaded ' + result.response);
+        }, function(error){
+            alert('error : ' + JSON.stringify(error));
+        }, options);
+    }
+
+    function onFail(message) {
+        alert('Failed because: ' + message);
+    }
+});
+
+//url: "http://www.alicesons.org/demos/phonegap/schoolone/s_login.php",
+//url: "http://www.alicesons.org/demos/phonegap/schoolone/login.php",
+
+     </script>
+
+   <div style="margin-bottom: 40px;"></div>
+    <footer id="s_footer"></footer>
+</body>
+</html>

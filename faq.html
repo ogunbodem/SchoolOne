@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <title>School One</title>
+
+    <link rel="stylesheet" type="text/css" href="w3css/4/w3.css">
+    <link rel="stylesheet" href="ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style type="text/css">
+      @media screen and (max-width: 455px) {
+      .h3 {
+        font-size:16px;
+      }
+     body {
+        font-size:10px;
+      }
+    }
+      .w3-note {
+        background-color: #ffffcc;
+        border-left: 6px solid #ffeb3b;
+      }
+      .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: red;
+        color: white;
+        text-align: center;
+      }
+      .baring{
+        padding: 10px 5px;
+        float: left;
+        width: auto;
+        border: none;
+        display: block;
+        outline: 0;
+      }
+      .bar_up{
+        margin-top: -10px;
+      }
+    </style>
+</head>
+<body>
+  <div class="w3-container w3-green">
+    <h3><a href="help.html"><i class="fa fa-chevron-circle-left"></i></a>  FAQ</h3>
+  </div>
+  <div class="w3-container w3-margin-bottom w3-margin-top">
+  <!-- notis start-->
+  <div class="w3-container w3-margin-top w3-margin-bottom">
+
+    <button onclick="myFunct('Demo1')" class="w3-button w3-light-grey w3-block w3-left-align" id="clickthis">What is Online Class?</button>
+    <div id="Demo1" class="w3-hide w3-border">
+    <div class="w3-container">
+      <p>School One Online Class App service is a 24-7 service that is available any time and every day. It is convenient, fast, secure, and affordable. It is simply, your online class features accessible via a mobile phone. Created and Powered by MicroFix Integrated Technologies</p>
+    </div>
+    </div>
+    <button onclick="myFunct('Demo2')" class="w3-button w3-block w3-light-grey w3-left-align">How can I download the mobile app?</button>
+    <div id="Demo2" class="w3-hide w3-border">
+      <div class="w3-container">
+        <p>
+          Download the School One Mobile app directly from Google Play&trade; or the Apple App&trade; or Windows Store&trade;. Once the app is installed, input your scratch card number and other personal details requested to continue with your registration(By registering I agree to MicroFix's Terms and Privacy Policy) and start using the app.
+        </p>
+      </div>
+    </div>
+    <button onclick="myFunct('Demo3')" class="w3-button w3-block w3-light-grey w3-left-align">What are the available modes for registration?</button>
+    <div id="Demo3" class="w3-hide w3-border">
+      <div class="w3-container">
+        <p>
+          <ul>
+            <li>Scratch Crad</li>
+          </ul>
+        </p>
+      </div>
+    </div>
+    <button onclick="myFunct('Demo4')" class="w3-button w3-block w3-light-grey w3-left-align">How do I Register?</button>
+    <div id="Demo4" class="w3-hide w3-border">
+      <div class="w3-container">
+      <p>
+          <span class="w3-tag">Step 1:</span> Enter Scratch Card Number, Email Address and continue.<br><br>
+          <span class="w3-tag">Step 2:</span> Select Category.<br><br>
+          <span class="w3-tag">Step 3:</span> Enter your names<br><br>
+          <span class="w3-tag">Step 4:</span> Create and confirm Username and Password, Click on Submit(Operation Successful).
+      </p>
+    </div>
+    </div>
+    <button onclick="myFunct('Demo5')" class="w3-button w3-block w3-light-grey w3-left-align">Can I download and Use the Mobile App on more than one (1) phone/device?</button>
+    <div id="Demo5" class="w3-hide w3-border">
+      <div class="w3-container">
+        <p>
+          Users can add up to 2 Devices.<br>
+          To add a new device, user should simply login with scratch card number and password, the App will prompt for Device Registration.<br>
+          The New Device can be authorize with Token only sent to your email/phone device.
+        </p>
+      </div>
+    </div>
+    <button onclick="myFunct('Demo6')" class="w3-button w3-block w3-light-grey w3-left-align">How secure is School One Mobile App?</button>
+    <div id="Demo6" class="w3-hide w3-border">
+      <div class="w3-container">
+        <p>
+          The School One Mobile App is very safe as it has different levels of security which ensure your information remains private.
+        </p>
+      </div>
+    </div>
+    <button onclick="myFunct('Demo7')" class="w3-button w3-block w3-light-grey w3-left-align">What infrastructure has to be in place?</button>
+    <div id="Demo7" class="w3-hide w3-border">
+      <div class="w3-container">
+        <p>
+          All you need is a mobile device that is connected to the internet.
+        </p>
+      </div>
+    </div>
+    <button onclick="myFunct('Demo8')" class="w3-button w3-block w3-light-grey w3-left-align">Do I need to visit MicroFix Office to register for School One Mobile App?</button>
+    <div id="Demo8" class="w3-hide w3-border">
+      <div class="w3-container">
+        <p>
+         No, registration is done within the app after a Bank deposit is made.
+        </p>
+      </div>
+    </div>
+    <button onclick="myFunct('Demo9')" class="w3-button w3-block w3-light-grey w3-left-align">How can I change my Password?</button>
+    <div id="Demo9" class="w3-hide w3-border">
+      <div class="w3-container">
+        <p>
+          Log on to the app and go to SETTINGS>>CHANGE PASSWORD. Enter the New Password, Confirm New Password and click Submit button to Confirm.<br>
+          Please note: PASSWORD is a combination of alphabet,numeric and special character symbol and not more 8 digits.
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- notis end-->
+ 
+  </div>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+      function myFunct(id) {
+        var x = document.getElementById(id);
+        if (x.classList) { 
+            x.classList.toggle("w3-show");
+            x.previousElementSibling.classList.toggle("w3-dark-grey");
+        } else {
+        // Fallback for IE9 and earlier
+        if (x.className.indexOf("w3-show") == -1) 
+            x.className = x.className + " w3-show";
+        else 
+            x.className = x.className.replace("w3-show", "");
+        }
+      }
+
+    </script>
+
+<div style="margin-bottom: 100px;"></div>
+</body>
+</html>

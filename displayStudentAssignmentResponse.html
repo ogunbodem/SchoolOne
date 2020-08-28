@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <title>School One</title>
+
+    <link rel="stylesheet" type="text/css" href="w3css/4/w3.css">
+    <link rel="stylesheet" href="ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style type="text/css">
+        @media screen and (max-width: 455px) {
+      .h3 {
+        font-size:16px;
+      }
+     body {
+        font-size:10px;
+      }
+    }
+    </style>
+    <script type="text/javascript">
+      var url = window.location.pathname;
+      var filename = url.substring(url.lastIndexOf('/')+1);
+      if(localStorage.t_login=="true" && filename == 'login.html'){
+        window.location.href = "t_dashboard.html";
+      } else if (localStorage.t_login == null) {
+        window.location.href = "login.html";
+      }else if(localStorage.t_login=="false" && filename != 'login.html'){
+        window.location.href = "login.html";
+      }
+    </script>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="w3-sidebar w3-light-grey w3-card-4 w3-animate-left" style="display:none;width:250px;" id="mySidebar">
+  <div id="t_menu">
+    
+  </div>
+  <div class="w3-bar-block">
+    <a id="t_logout" class="w3-bar-item w3-button" href="javascript:;"><i class="fa fa-power-off"></i> Logout</a>
+  </div>
+</div>
+
+<!-- Page Content -->
+<div id="main">
+<div class="w3-green w3-display-container">
+  <button class="w3-button w3-green w3-xlarge" id="openNav" onclick="w3_open()"><i class="fa fa-bars"></i></button>
+  <div class="w3-container">
+    <img src="img/logo_white.png" style="width: 52px;height: 52px;margin-right:20px;" class="w3-right w3-margin-bottom">
+    <h1 class="h3" style="float: left;"><span id="studentFullname"></span></h1>
+  </div>
+</div>
+</div>
+<img src="img/sub_page_bg.jpg" alt="bg" style="width:100%;border-bottom: 5px solid #4CAF50 !important;">
+<div class="w3-container w3-margin-top">
+<a href="javascript: history.go(-1)" class="w3-button w3-green w3-tiny w3-right w3-margin-bottom"><i class="fa fa-chevron-circle-left"></i> Go Back</a><br>
+  <div id="assignmentForm" class="w3-card-4 w3-margin-bottom w3-margin-top" style="border: 1px solid #4CAF50 !important;">
+    
+  </div>
+</div>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="js/t_auth.js"></script>
+    <script type="text/javascript" src="js/t_constant.js"></script>
+   <script type="text/javascript" src="js/getUrl.js"></script>
+    <script type="text/javascript" src="js/t_func.js"></script>
+    <script>
+      $(document).ready(function(){
+        var teacher_no = localStorage.teacherSpecialID;
+
+        var saa_id = decodeURI(getUrlVars()["saa_id"]);
+        var saa_school = decodeURI(getUrlVars()["saa_school"]);
+        var saa_class = decodeURI(getUrlVars()["saa_class"]);
+        var saa_subject = decodeURI(getUrlVars()["saa_subject"]);
+        var saa_assignment_id = decodeURI(getUrlVars()["saa_assignment_id"]);
+        var saa_topic = decodeURI(getUrlVars()["saa_topic"]);
+        var saa_description = decodeURI(getUrlVars()["saa_description"]);
+        var saa_comment = decodeURI(getUrlVars()["saa_comment"]);
+        var saa_created_by = decodeURI(getUrlVars()["saa_created_by"]);
+        var saa_comment_by = decodeURI(getUrlVars()["saa_comment_by"]);
+        var fname = decodeURI(getUrlVars()["student_firstname"]);
+        var lname = decodeURI(getUrlVars()["student_lastname"]);
+        $("#studentFullname").text(lname +' '+fname);
+        String.prototype.nl2br = function(){
+                return this.replace(/\n/g, "<br />");
+            }
+
+        if (saa_id) {
+          $("#assignmentForm").append('<form class="w3-container"><p><input id="teacher_special_no" class="w3-input w3-border w3-light-grey" type="hidden" value="'+localStorage.teacherSpecialID+'"><input id="assignment_id" class="w3-input w3-border w3-light-grey" type="hidden" value="'+saa_assignment_id+'"><input id="saa_school" class="w3-input w3-border w3-light-grey" type="hidden" value="'+saa_school+'"><input id="saa_class" class="w3-input w3-border w3-light-grey" type="hidden" value="'+saa_class+'"><input id="saa_subject" class="w3-input w3-border w3-light-grey" type="hidden" value="'+saa_subject+'"><input id="comment_by" class="w3-input w3-border w3-light-grey" type="hidden" value="'+saa_comment_by+'"></p><p><label class="w3-text-teal"><b>Subject</b></label><input id="assignment_subject" class="w3-input w3-border w3-light-grey" type="text" value="'+saa_subject+'" readonly></p><p><label class="w3-text-teal"><b>Topic</b></label><input id="assignment_topic" class="w3-input w3-border w3-light-grey" type="text" value="'+saa_topic+'" readonly></p><p><label class="w3-text-teal"><b>Notes</b></label><textarea id="assignment_description" class="w3-input w3-border w3-light-grey" style="resize:none">'+saa_description+'</textarea></p><p><label class="w3-text-teal"><b>Comment</b></label><textarea id="assignment_comment" class="w3-input w3-border w3-light-grey" style="resize:none">'+saa_comment.nl2br()+'</textarea></p><p><label class="w3-text-teal"><b>Academic Year</b></label> <select class="w3-select w3-border w3-light-grey" id="academic_year"><option value="2019-2020" selected>2019-2020</option></select> </p><p><label class="w3-text-teal"><b>Academic Term</b></label> <select class="w3-select w3-border w3-light-grey" id="academic_term"><option value="0" selected>Select option</option><option value="FIRST TERM">FIRST TERM</option><option value="SECOND TERM">SECOND TERM</option><option value="THIRD TERM">THIRD TERM</option></select> </p><p><label class="w3-text-teal"><b>Remark</b></label><textarea id="assignment_comment_remark" class="w3-input w3-border w3-light-grey" style="resize:none"></textarea></p><p><label class="w3-text-teal"><b>Mark</b></label><input id="mark" class="w3-input w3-border" type="text"></p><p><button id="remark_assignment" class="w3-btn w3-blue-grey w3-round" style="width:100%;" type="button"><b>Save Remark</b></button></p></form>');   
+        } 
+
+
+        //User Registration function
+    $("#remark_assignment").click(function(){
+      var special_no = $("#teacher_special_no").val();
+      var a_subject = $("#saa_subject").val();
+      var a_school = $("#saa_school").val();
+      var a_class = $("#saa_class").val();
+      var academic_term = $("#academic_term").val();
+      var academic_year = $("#academic_year").val();
+      var a_id = $("#assignment_id").val();
+      var a_comment_remark = $("#assignment_comment_remark").val();
+      var a_mark = $("#mark").val();
+      var a_comment = $("#comment_by").val();
+        
+      var dataString = "special_no=" + special_no + "&a_id=" + a_id + "&a_comment_remark=" + a_comment_remark + "&a_mark=" + a_mark + "&a_subject=" + a_subject + "&a_school=" + a_school + "&a_class=" + a_class + "&academic_term=" + academic_term + "&academic_year=" + academic_year + "&a_comment=" + a_comment + "&new_assignment_remark=";
+      if ($.trim(special_no).length > 0 & $.trim(a_id).length > 0) {
+        $.ajax({
+          type: "POST",
+          //url: "http://www.alicesons.org/demos/phonegap/schoolone/register.php",
+          url: "http://www.alicesons.org/demos/phonegap/schoolone/save_assignment_remark.php",
+          data: dataString,
+          crossDomain: true,
+          cache: false,
+          beforeSend: function(){ 
+            $("#remark_assignment").html('<img src="img/loader.gif" />');
+          },
+          success: function(data){
+            if (data == "success") {
+              if(!alert("Your remark is sent successfully!.")){
+                window.location.reload();
+                $("#assignment_comment_remark").val("");
+                $("#mark").val("");
+                $("#academic_term").val("");
+              }
+            } else if (data == "error") {
+              if(!alert("Remark can't be sent!.")){
+                window.location.reload();
+                $("#assignment_comment_remark").val("");
+                $("#mark").val("");
+                $("#academic_term").val("");
+              }
+            }
+          }
+        });
+      }return false;
+    });
+
+      });
+    </script>
+    <div style="margin-bottom: 100px;"></div>
+    <footer id="t_footer"></footer>
+</body>
+</html>
